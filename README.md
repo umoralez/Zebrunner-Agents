@@ -4,7 +4,7 @@ This is a project based on the automation testing tool **Zebrunner**, the goal i
 
 # Implementations(Work in Progress)
 
-We need to cover those languages and tools:
+We need to cover these languages and tools:
 
  - Java with TestNG
  - Java with Carina Framework
