@@ -15,8 +15,10 @@ public class FileUtils {
 
     public static Map<String, String> propertyValue(String... keys) {
         Map<String, String> properties = new HashMap<>();
+        File agentFile = new File(System.getProperty("user.dir")
+                + "/src/main/resources/agent.yaml");
 
-        try (Reader reader = new FileReader(propertiesPath);
+        try (Reader reader = new FileReader(agentFile);
              BufferedReader bufferReader = new BufferedReader(reader)) {
 
             for (int i = 0; i < keys.length; i++) {
@@ -25,6 +27,7 @@ public class FileUtils {
                 Optional<String> targetLine = bufferReader.lines()
                         .filter(k -> k.contains(keys[keyIndex]))
                         .findFirst();
+               bufferReader.lines().forEach(System.out::println);
 
                 if (targetLine.isPresent()) {
                     String removedIndentation = removeInitialSpaces(targetLine.get());

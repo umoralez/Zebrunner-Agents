@@ -12,11 +12,12 @@ public class TokenGeneration extends BaseClass {
     private final String endpoint = properties.getProperty("URL") + properties.getProperty("ENP_TOKEN_GENERATE");
 
     public void tokenGeneration() {
-        String token = FileUtils.propertyValue(propertiesFile,"access-token").get("access-token");
+        String token = FileUtils.propertyValue("access-token").get("access-token");
         TokenGenerationDTO bodyObject = new TokenGenerationDTO(token);
 
         String bodyJson = gson.toJson(bodyObject);
-
+        System.out.println(token);
+        System.out.println(endpoint);
         RequestBody body = RequestBody.create(JSON, bodyJson);
         Request request = new Request.Builder().url(endpoint).post(body).build();
 
@@ -26,13 +27,13 @@ public class TokenGeneration extends BaseClass {
 
             response.body().close();
 
-
+            System.out.println(bodyResponse);
             FileUtils.tokenProperties(SplitResponse.splitToken(bodyResponse));
-
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
+
     }
 
 }
