@@ -16,8 +16,7 @@ public class TokenGeneration extends BaseClass {
         TokenGenerationDTO bodyObject = new TokenGenerationDTO(token);
 
         String bodyJson = gson.toJson(bodyObject);
-        System.out.println(token);
-        System.out.println(endpoint);
+
         RequestBody body = RequestBody.create(JSON, bodyJson);
         Request request = new Request.Builder().url(endpoint).post(body).build();
 
@@ -27,8 +26,7 @@ public class TokenGeneration extends BaseClass {
 
             response.body().close();
 
-            System.out.println(bodyResponse);
-            FileUtils.tokenProperties(SplitResponse.splitToken(bodyResponse));
+           FileUtils.tokenProperties(SplitResponse.splitToken(bodyResponse));
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());

@@ -18,14 +18,12 @@ public class TestStart extends BaseClass {
 
 
     public void testStartRequest() {
-        FileUtils.readToken();
-
         TestStartDTO bodyObject = new TestStartDTO();
-
+        TokenGeneration tokenGeneration = new TokenGeneration();
         String bodyJson = gson.toJson(bodyObject);
         RequestBody body = RequestBody.create(JSON, bodyJson);
 
-        Request request = new Request.Builder().url(endpointTestStart).post(body).build();
+        Request request = new Request.Builder().url(endpointTestStart).post(body).addHeader("Bearer", String.valueOf(FileUtils.readToken())).build();
 
         try  {
             Response response = client.newCall(request).execute();

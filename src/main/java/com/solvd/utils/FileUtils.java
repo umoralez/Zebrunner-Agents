@@ -1,5 +1,7 @@
 package com.solvd.utils;
 
+import com.solvd.BaseClass;
+import com.solvd.requests.post.TokenGeneration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,17 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class FileUtils {
+public class FileUtils extends BaseClass {
     private static final Logger LOGGER = LogManager.getLogger(FileUtils.class);
-    private static File propertiesPath = new File(System.getProperty("user.dir")
-            + "/src/main/resources/config.properties");
 
     public static Map<String, String> propertyValue(String... keys) {
         Map<String, String> properties = new HashMap<>();
-        File agentFile = new File(System.getProperty("user.dir")
-                + "/src/main/resources/agent.yaml");
 
-        try (Reader reader = new FileReader(agentFile);
+        try (Reader reader = new FileReader(propertiesFile);
              BufferedReader bufferReader = new BufferedReader(reader)) {
 
             for (int i = 0; i < keys.length; i++) {
@@ -27,7 +25,6 @@ public class FileUtils {
                 Optional<String> targetLine = bufferReader.lines()
                         .filter(k -> k.contains(keys[keyIndex]))
                         .findFirst();
-               bufferReader.lines().forEach(System.out::println);
 
                 if (targetLine.isPresent()) {
                     String removedIndentation = removeInitialSpaces(targetLine.get());
@@ -52,7 +49,6 @@ public class FileUtils {
         return word;
     }
 
-
     public static void tokenProperties(String token) {
 
 
@@ -65,6 +61,7 @@ public class FileUtils {
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
+
     }
 
     private static void replaceToken(String token) {
