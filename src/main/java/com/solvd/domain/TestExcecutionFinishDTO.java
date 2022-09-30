@@ -1,14 +1,12 @@
 package com.solvd.domain;
 
-import com.solvd.utils.DateFormatter;
-
 public class TestExcecutionFinishDTO {
     private String result;
     private String endedAt;
 
-    public TestExcecutionFinishDTO(String result) {
+    public TestExcecutionFinishDTO(String result, String endedAt) {
         this.result = result;
-        this.endedAt = DateFormatter.getCurrentTime();
+        this.endedAt = endedAt;
     }
 
     public String getResult() {

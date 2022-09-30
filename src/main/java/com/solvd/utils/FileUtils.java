@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
 
 public class FileUtils {
     private static final Logger LOGGER = LogManager.getLogger(FileUtils.class);
@@ -95,5 +96,22 @@ public class FileUtils {
             LOGGER.error(e.getMessage());
         }
         return value;
+    }
+
+    public static void changeProperties(String value, String key, File file){
+        try {
+            FileInputStream in = new FileInputStream(file);
+            Properties props = new Properties();
+            props.load(in);
+            in.close();
+            FileOutputStream out = new FileOutputStream(file);
+            props.setProperty(key, value);
+            props.store(out, null);
+            out.close();
+        } catch (FileNotFoundException e) {
+            LOGGER.error(e.getMessage());
+        }catch(IOException ioe){
+            LOGGER.error(ioe.getMessage());
+        }
     }
 }

@@ -12,10 +12,10 @@
 
     <loggers>
         <!--    Additivity in false doesn't allow to repetitive logs-->
-        <Logger name="com.solvd" level="info" additivity="false">
+        <Logger name="com.solvd" level="debug" additivity="false">
             <AppenderRef ref="logToConsole"/>
         </Logger>
-        <root level="info" additivity="false">
+        <root level="debug" additivity="false">
             <appender-ref ref="logToConsole"/>
         </root>
     </loggers>

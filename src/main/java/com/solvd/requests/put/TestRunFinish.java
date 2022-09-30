@@ -27,7 +27,7 @@ public class TestRunFinish extends BaseClass{
         Request request = new Request.Builder().url(endpointTestFinishRun.toString())
                 .put(body).addHeader(keyToken, FileUtils.readValueInProperties(tokenPath, "Authorization=Bearer "))
                 .build();
-
+        LOGGER.debug("TestFinish"+endpointTestFinishRun.toString());
         try  {
             Response response = client.newCall(request).execute();
             String bodyResponse = response.body().string();

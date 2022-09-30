@@ -1,6 +1,8 @@
 package com.solvd.requests.put;
 
 import java.io.IOException;
+
+import com.google.gson.JsonObject;
 import com.solvd.BaseClass;
 import com.solvd.domain.TestExcecutionFinishDTO;
 import com.solvd.utils.FileUtils;
@@ -9,23 +11,25 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
-public class TestExcecutionFinish extends BaseClass{
+
+public class TestExecutionFinish extends BaseClass{
     private StringBuilder endpointTestFinishRun = new StringBuilder(properties.getProperty("URL"));
 
-    //{{id}}/tests/{1341}
-    public void testExcecutionFinishRequest(){
-        String projectId = FileUtils.readValueInProperties(idPath, "id").get("id") + "/tests" + FileUtils.readValueInProperties(idPath, "test_id=");
-        endpointTestFinishRun.append(RequestUpdate.addQueryParamsValues("ENP_EXCECUTION_FINISH", projectId));
+    public void testExcecutionFinishRequest(JsonObject endpointData){
+        String projectId = FileUtils.readValueInProperties(idPath, "id") + "/tests/" + FileUtils.readValueInProperties(idPath, "test_id=");
+        endpointTestFinishRun.append(RequestUpdate.addQueryParamsValue("ENP_EXECUTION", projectId));
 
-        String result = "PASSED";
-        TestExcecutionFinishDTO bodyObject = new TestExcecutionFinishDTO(result);
+        
+        TestExcecutionFinishDTO bodyObject = new TestExcecutionFinishDTO(
+                endpointData.get("result").getAsString(),
+                endpointData.get("endedAt").getAsString());
         String bodyJson = gson.toJson(bodyObject);
 
         RequestBody body = RequestBody.create(JSON, bodyJson);
 
         String keyToken = "Authorization";
-        Request request = new Request.Builder().url(endpointTestFinishRun.toString()).put(body).addHeader(keyToken, FileUtils.readValueInProperties(tokenPath, "Authorization=Bearer ").get(keyToken)).build();
-        
+        Request request = new Request.Builder().url(endpointTestFinishRun.toString()).put(body).addHeader(keyToken, FileUtils.readValueInProperties(tokenPath, "Authorization=Bearer ")).build();
+        LOGGER.debug("ExeFinish"+endpointTestFinishRun.toString());
         try  {
             Response response = client.newCall(request).execute();
             String bodyResponse = response.body().string();

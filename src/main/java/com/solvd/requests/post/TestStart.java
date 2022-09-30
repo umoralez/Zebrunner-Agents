@@ -22,7 +22,9 @@ public class TestStart extends BaseClass {
 
         endpointTestStart.append(RequestUpdate.addQueryParamsValue("ENP_RUN_START", projectKey));
 
-        TestStartDTO bodyObject = new TestStartDTO(endpointData.get("name").getAsString(), endpointData.get("framework").getAsString());
+        TestStartDTO bodyObject = new TestStartDTO(
+            endpointData.get("name").getAsString(),
+            endpointData.get("framework").getAsString());
         String bodyJson = gson.toJson(bodyObject);
 
         RequestBody body = RequestBody.create(JSON, bodyJson);
@@ -31,7 +33,7 @@ public class TestStart extends BaseClass {
         Request request = new Request.Builder().url(endpointTestStart.toString())
                 .post(body).addHeader(keyToken, FileUtils.readValueInProperties(tokenPath, "Authorization=Bearer "))
                 .build();
-
+        LOGGER.debug("TestStart"+endpointTestStart.toString());
         try  {
             Response response = client.newCall(request).execute();
             String bodyResponse = response.body().string();
@@ -39,8 +41,9 @@ public class TestStart extends BaseClass {
             response.body().close();
 
 
-            FileUtils.addValueProperties(ResponseUtils.splitResponse(bodyResponse, "\"id\""), idPath, "id=");
-
+            //FileUtils.addValueProperties(ResponseUtils.splitResponse(bodyResponse, "\"id\""), idPath, "id=");
+            FileUtils.changeProperties(ResponseUtils.splitResponse(bodyResponse, "\"id\""), "id", idPath);
+            
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
