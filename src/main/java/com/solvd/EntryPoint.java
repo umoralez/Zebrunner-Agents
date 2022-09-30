@@ -35,7 +35,7 @@ public class EntryPoint {
         testExecutionStart.testExecutionStart(endpointTSE);
 
     }
-    
+
 //TODO:
 // - Save the test id returned in the TestExecutionStart (use the response utils)
 // - Fix the files structure in resources folder (find some method to replace or/and delete a line in a file)
