@@ -1,11 +1,6 @@
 package com.solvd.domain;
 
 import com.solvd.utils.DateFormatter;
-import com.solvd.utils.FileUtils;
-
-import java.text.ParseException;
-import java.time.OffsetDateTime;
-import java.util.Date;
 
 public class TestStartDTO {
     private String name;

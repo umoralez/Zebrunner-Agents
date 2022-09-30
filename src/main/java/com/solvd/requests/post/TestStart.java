@@ -15,12 +15,11 @@ import java.io.IOException;
 import static com.solvd.utils.FileUtils.removeInitialSpaces;
 
 public class TestStart extends BaseClass {
-    private final String projectKey = FileUtils.propertyValue("projectKey").get("projectKey");
     private StringBuilder endpointTestStart = new StringBuilder(properties.getProperty("URL"));
 
 
     public void testStartRequest() {
-        String name = "Test name";
+        String name = "Test name l1";
         String framework = "testng";
         String projectKey = removeInitialSpaces(FileUtils.propertyValue("project-key").get("project-key"));
 
