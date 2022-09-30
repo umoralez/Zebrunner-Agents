@@ -17,8 +17,8 @@ public class DateFormatter {
 
     }
 
-    public static OffsetDateTime getCurrentTime(String time) {
-        return OffsetDateTime.parse(time);
+    public static String getCurrentTime(String time) {
+        return OffsetDateTime.parse(time).toString();
 
     }
 }

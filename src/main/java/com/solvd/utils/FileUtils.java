@@ -72,47 +72,15 @@ public class FileUtils {
     //Replace existent token in properties file for the new one
     private static boolean replaceToken(String token) {
 
-        try (Reader reader = new FileReader(tokenPath);
-             BufferedReader bufferReader = new BufferedReader(reader);
-             FileChannel channel = FileChannel.open(tokenPath.toPath(), StandardOpenOption.WRITE, StandardOpenOption.READ)) {
-
-            BufferedReader copyLines = new BufferedReader(new FileReader(tokenPath));
-
-            //Collect the token's index line
-            Optional<Long> indexLine = findTextLinePosition(copyLines);
-
-            //Collect the token's line
-            Optional<String> targetLine = bufferReader.lines()
-                    .filter(k -> k.contains("Authorization=Bearer "))
-                    .findFirst();
-
-
-            if (targetLine.isPresent() && indexLine.isPresent()) {
-                //Move the file's prompt in the index line
-                channel.position(indexLine.get());
-                //Write the line with the token's bytes representation (replace the old token for the new one)
-                channel.write(ByteBuffer.wrap(("Authorization=Bearer " + token).getBytes()));
-                return true;
-            }
+        try(FileWriter writer = new FileWriter(tokenPath)) {
+            writer.flush();
+            writer.append("Authorization=Bearer ");
+            writer.append(String.valueOf(token));
+            return true;
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
-
         return false;
-    }
-
-
-    private static Optional<Long> findTextLinePosition(BufferedReader bufferedReader) {
-
-        List<String> listLines = bufferedReader.lines().collect(Collectors.toList());
-
-        //Return the index line
-        for (int i = 0; i < listLines.size(); i++) {
-            if (listLines.get(i).contains("Authorization")) {
-                return Optional.of((long) i);
-            }
-        }
-        return Optional.empty();
     }
     public static Map<String, String> readToken() {
         Map<String, String> token = new HashMap<>();

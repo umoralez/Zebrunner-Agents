@@ -10,7 +10,7 @@ import java.util.Date;
 public class TestStartDTO {
     private String name;
     private String framework;
-    private OffsetDateTime startedAt;
+    private String startedAt;
 
     public TestStartDTO() {
     }
@@ -36,11 +36,11 @@ public class TestStartDTO {
         this.framework = framework;
     }
 
-    public OffsetDateTime getStartedAt() {
+    public String getStartedAt() {
         return startedAt;
     }
 
-    public void setStartedAt(OffsetDateTime startedAt) {
+    public void setStartedAt(String startedAt) {
         this.startedAt = startedAt;
     }
 }

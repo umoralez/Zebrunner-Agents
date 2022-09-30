@@ -25,6 +25,7 @@ public class TestStart extends BaseClass {
         //String projectKey = FileUtils.propertyValue("project-key").get("project-key");
         String name = "Test name";
         String framework = "testng";
+        //TODO: add project key from agent file (FileUtils.propertyValue) add query param in ENP_RUN_START (config.properties) in the endpoint before request call.
         String startedAt = DateFormatter.getCurrentTime();
 
         System.out.println(startedAt);
