@@ -3,7 +3,7 @@ reporting:
   project-key: ALPHA
   server:
     hostname: https://solvdinternal.zebrunner.com
-    access-token: i1tZ8C3Cbg636kKiCL5UXt7tgkB4vPe2xrKaZiB3Velssan2wk
+    access-token: 6vW60flV9nGQsddJOw1igFTsQBeIi6Q5zwplUTR6Om3AkK4LHU
   run:
     retry-known-issues: false
     treat-skips-as-failures: false

@@ -6,8 +6,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.util.Optional;
 
-import static com.solvd.utils.FileUtils.removeInitialSpaces;
-
 public class RequestUpdate {
 
     private static final Logger LOGGER = LogManager.getLogger(RequestUpdate.class);

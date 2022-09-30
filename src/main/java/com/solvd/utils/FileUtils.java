@@ -77,7 +77,6 @@ public class FileUtils {
     }
     public static Map<String, String> readValueInProperties(File file, String target) {
         Map<String, String> token = new HashMap<>();
-
         try (Reader reader = new FileReader(file);
              BufferedReader bufferReader = new BufferedReader(reader)) {
 
@@ -88,15 +87,13 @@ public class FileUtils {
             if (targetLine.isPresent()) {
                 String[] tokenHeader = targetLine.get().split("=");
 
-                tokenHeader[1] = tokenHeader[1].split("Authorization")[0];
+                tokenHeader[1] = tokenHeader[1].split(target)[0];
 
                 token.put(tokenHeader[0], tokenHeader[1]);
             }
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
-
         return token;
     }
-
 }
