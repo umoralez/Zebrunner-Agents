@@ -18,10 +18,6 @@ public abstract class BaseClass {
     protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     protected static final OkHttpClient client = new OkHttpClient();
     protected static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    protected static final File propertiesPath = new File(System.getProperty("user.dir")
-            + "/src/main/resources/config.properties");
-    protected static final File propertiesFile = new File(System.getProperty("user.dir")
-            + "/src/main/resources/agent.yaml");
     protected Gson gson = new Gson();
     protected Properties properties;
 

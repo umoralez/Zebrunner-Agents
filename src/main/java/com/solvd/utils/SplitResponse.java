@@ -1,5 +1,7 @@
 package com.solvd.utils;
 
+import java.util.Map;
+
 public class SplitResponse {
     public static String splitToken(String responseJson) {
         String[] splitToken = responseJson.split(":");
@@ -13,6 +15,4 @@ public class SplitResponse {
         }
         return token.replace("\"", "");
     }
-
-
 }

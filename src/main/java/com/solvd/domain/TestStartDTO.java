@@ -1,31 +1,25 @@
 package com.solvd.domain;
 
 import com.solvd.utils.DateFormatter;
+import com.solvd.utils.FileUtils;
+
+import java.text.ParseException;
+import java.time.OffsetDateTime;
+import java.util.Date;
 
 public class TestStartDTO {
-    private String projectKey;
     private String name;
     private String framework;
-    private String startedAt;
+    private OffsetDateTime startedAt;
 
     public TestStartDTO() {
     }
 
-    public TestStartDTO(String projectKey, String name, String framework, String startedAt) {
-        this.projectKey = projectKey;
+    public TestStartDTO(String name, String framework, String startedAt) {
         this.name = name;
         this.framework = framework;
-        this.startedAt = startedAt;
+        this.startedAt = DateFormatter.getCurrentTime(startedAt);
     }
-
-    public String getProjectKey() {
-        return projectKey;
-    }
-
-    public void setProjectKey(String projectKey) {
-        this.projectKey = projectKey;
-    }
-
     public String getName() {
         return name;
     }
@@ -42,12 +36,11 @@ public class TestStartDTO {
         this.framework = framework;
     }
 
-    public String getStartedAt() {
-
-        return DateFormatter.getCurrentTime();
+    public OffsetDateTime getStartedAt() {
+        return startedAt;
     }
 
-    public void setStartedAt(String startedAt) {
+    public void setStartedAt(OffsetDateTime startedAt) {
         this.startedAt = startedAt;
     }
 }

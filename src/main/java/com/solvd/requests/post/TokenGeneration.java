@@ -28,6 +28,7 @@ public class TokenGeneration extends BaseClass {
 
            FileUtils.tokenProperties(SplitResponse.splitToken(bodyResponse));
 
+
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }

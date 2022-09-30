@@ -1,13 +1,13 @@
 package com.solvd.domain;
 
-public class TestExecution {
+public class TestExecutionDTO {
 
     String name;
     String className;
     String methodName;
     String startedAt;
 
-    public TestExecution(String name, String className, String methodName, String startedAt) {
+    public TestExecutionDTO(String name, String className, String methodName, String startedAt) {
         this.name = name;
         this.className = className;
         this.methodName = methodName;
