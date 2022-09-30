@@ -1,5 +1,7 @@
 package com.solvd.domain;
 
+import com.solvd.utils.DateFormatter;
+
 public class TestExecutionDTO {
 
     String name;
@@ -7,11 +9,11 @@ public class TestExecutionDTO {
     String methodName;
     String startedAt;
 
-    public TestExecutionDTO(String name, String className, String methodName, String startedAt) {
+    public TestExecutionDTO(String name, String className, String methodName) {
         this.name = name;
         this.className = className;
         this.methodName = methodName;
-        this.startedAt = startedAt;
+        this.startedAt = DateFormatter.getCurrentTime();
     }
 
     public String getName() {

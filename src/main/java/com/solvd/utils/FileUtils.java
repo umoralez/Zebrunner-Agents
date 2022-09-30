@@ -4,19 +4,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class FileUtils {
     private static final Logger LOGGER = LogManager.getLogger(FileUtils.class);
-    protected static final File tokenPath = new File(System.getProperty("user.dir")
-            + "/src/main/resources/token.properties");
 
     public static Map<String, String> propertyValue(String... keys) {
         Map<String, String> properties = new HashMap<>();
@@ -44,7 +37,7 @@ public class FileUtils {
         return properties;
     }
 
-    private static String removeInitialSpaces(String word) {
+    public static String removeInitialSpaces(String word) {
         for (char character : word.toCharArray()) {
             if (!Character.isSpaceChar(character)) {
                 word = word.substring(word.indexOf(character));
@@ -55,41 +48,41 @@ public class FileUtils {
     }
 
     //Add token in properties file
-    public static void tokenProperties(String token) {
+    public static void addValueProperties(String value, File file, String key) {
 
         //Append the token if the token doesn't exist in the properties file
-        if(!FileUtils.replaceToken(token)) {
-            try (FileWriter fileWriter = new FileWriter(tokenPath, true)) {
+        if(!FileUtils.replaceValueInProperties(value, file, key)) {
+            try (FileWriter fileWriter = new FileWriter(file, true)) {
 
                 fileWriter.append("Authorization=Bearer ");
-                fileWriter.append(String.valueOf(token));
+                fileWriter.append(String.valueOf(value));
 
             } catch (IOException e) {
                 LOGGER.error(e.getMessage());
             }
         }
     }
-    //Replace existent token in properties file for the new one
-    private static boolean replaceToken(String token) {
+    //Replace existent value in properties file for the new one
+    private static boolean replaceValueInProperties(String value, File file, String key) {
 
-        try(FileWriter writer = new FileWriter(tokenPath)) {
+        try(FileWriter writer = new FileWriter(file)) {
             writer.flush();
-            writer.append("Authorization=Bearer ");
-            writer.append(String.valueOf(token));
+            writer.append(key);
+            writer.append(String.valueOf(value));
             return true;
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
         return false;
     }
-    public static Map<String, String> readToken() {
+    public static Map<String, String> readValueInProperties(File file, String target) {
         Map<String, String> token = new HashMap<>();
 
-        try (Reader reader = new FileReader(tokenPath);
+        try (Reader reader = new FileReader(file);
              BufferedReader bufferReader = new BufferedReader(reader)) {
 
             Optional<String> targetLine = bufferReader.lines()
-                    .filter(k -> k.contains("Authorization=Bearer "))
+                    .filter(k -> k.contains(target))
                     .findFirst();
 
             if (targetLine.isPresent()) {

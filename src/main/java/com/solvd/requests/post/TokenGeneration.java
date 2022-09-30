@@ -3,7 +3,7 @@ package com.solvd.requests.post;
 import com.solvd.BaseClass;
 import com.solvd.domain.TokenGenerationDTO;
 import com.solvd.utils.FileUtils;
-import com.solvd.utils.SplitResponse;
+import com.solvd.utils.ResponseUtils;
 import com.squareup.okhttp.*;
 
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class TokenGeneration extends BaseClass {
 
             response.body().close();
 
-           FileUtils.tokenProperties(SplitResponse.splitToken(bodyResponse));
+           FileUtils.addValueProperties(ResponseUtils.splitResponse(bodyResponse, "\"authToken\""), tokenPath, "Authorization=Bearer ");
 
 
         } catch (IOException e) {

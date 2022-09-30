@@ -18,6 +18,10 @@ public abstract class BaseClass {
     protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     protected static final OkHttpClient client = new OkHttpClient();
     protected static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    protected static final File tokenPath = new File(System.getProperty("user.dir")
+            + "/src/main/resources/token.properties");
+    protected static final File idPath = new File(System.getProperty("user.dir")
+            + "/src/main/resources/id.properties");
     protected Gson gson = new Gson();
     protected Properties properties;
 
