@@ -1,5 +1,6 @@
 package com.solvd;
 
+import com.solvd.requests.post.TestExcecutionStart;
 import com.solvd.requests.post.TestStart;
 import com.solvd.requests.post.TokenGeneration;
 import com.solvd.requests.put.TestRunFinish;
@@ -13,6 +14,9 @@ public class EntryPoint {
 
         TestStart endpointTS = new TestStart();
         endpointTS.testStartRequest();
+
+        TestExcecutionStart endpointTES = new TestExcecutionStart();
+        endpointTES.testExcecutionStartRequest();
 
         TestRunFinish endpointTF = new TestRunFinish();
         endpointTF.testRunFinishRequest();

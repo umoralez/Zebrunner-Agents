@@ -54,7 +54,7 @@ public class FileUtils {
         if(!FileUtils.replaceValueInProperties(value, file, key)) {
             try (FileWriter fileWriter = new FileWriter(file, true)) {
 
-                fileWriter.append("Authorization=Bearer ");
+                fileWriter.append(key);
                 fileWriter.append(String.valueOf(value));
 
             } catch (IOException e) {
