@@ -2,6 +2,7 @@ package com.solvd.requests.post;
 
 import com.google.gson.JsonObject;
 import com.solvd.BaseClass;
+import com.solvd.domain.TestExecutionStartDTO;
 import com.solvd.domain.TestStartDTO;
 import com.solvd.utils.FileUtils;
 import com.solvd.utils.RequestUpdate;
@@ -14,15 +15,19 @@ import java.io.IOException;
 
 import static com.solvd.utils.FileUtils.removeInitialSpaces;
 
-public class TestStart extends BaseClass {
+public class TestExecutionStart extends BaseClass {
 
-    public void testStartRequest(JsonObject endpointData) {
+    public void testExecutionStart(JsonObject endpointData) {
 
-        String projectKey = removeInitialSpaces(FileUtils.propertyValue("project-key").get("project-key"));
+        endpointTestStart.append(RequestUpdate.completeEndpoint("ENP_TEST_EXECUTION_START", "/tests"));
 
-        endpointTestStart.append(RequestUpdate.addQueryParamsValue("ENP_RUN_START", projectKey));
 
-        TestStartDTO bodyObject = new TestStartDTO(endpointData.get("name").getAsString(), endpointData.get("framework").getAsString());
+
+        TestExecutionStartDTO bodyObject = new TestExecutionStartDTO(
+                endpointData.get("name").getAsString(),
+                endpointData.get("className").getAsString(),
+                endpointData.get("methodName").getAsString());
+
         String bodyJson = gson.toJson(bodyObject);
 
         RequestBody body = RequestBody.create(JSON, bodyJson);
@@ -37,9 +42,7 @@ public class TestStart extends BaseClass {
             String bodyResponse = response.body().string();
 
             response.body().close();
-
-
-            FileUtils.addValueProperties(ResponseUtils.splitResponse(bodyResponse, "\"id\""), idPath, "id=");
+            System.out.println(bodyResponse);
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());

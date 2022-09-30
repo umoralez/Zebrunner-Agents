@@ -10,9 +10,4 @@ public class DateFormatter {
         return OffsetDateTime.now().toString();
 
     }
-
-    public static String getCurrentTime(String time) {
-        return OffsetDateTime.parse(time).toString();
-
-    }
 }

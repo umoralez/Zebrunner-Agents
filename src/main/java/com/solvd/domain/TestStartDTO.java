@@ -10,10 +10,10 @@ public class TestStartDTO {
     public TestStartDTO() {
     }
 
-    public TestStartDTO(String name, String framework, String startedAt) {
+    public TestStartDTO(String name, String framework) {
         this.name = name;
         this.framework = framework;
-        this.startedAt = DateFormatter.getCurrentTime(startedAt);
+        this.startedAt = DateFormatter.getCurrentTime();
     }
     public String getName() {
         return name;

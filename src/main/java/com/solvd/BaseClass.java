@@ -21,12 +21,14 @@ public abstract class BaseClass {
             + "/src/main/resources/token.properties");
     protected static final File idPath = new File(System.getProperty("user.dir")
             + "/src/main/resources/id.properties");
-    protected Gson gson = new Gson();
     protected Properties properties;
+
+    protected final StringBuilder endpointTestStart;
+    protected Gson gson = new Gson();
 
     public BaseClass (){
         propertiesReader();
-
+        endpointTestStart = new StringBuilder(properties.getProperty("URL"));
     }
     private void propertiesReader() {
 
