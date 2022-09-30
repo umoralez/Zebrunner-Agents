@@ -75,8 +75,8 @@ public class FileUtils {
         }
         return false;
     }
-    public static Map<String, String> readValueInProperties(File file, String target) {
-        Map<String, String> token = new HashMap<>();
+    public static String readValueInProperties(File file, String target) {
+        String value = "";
         try (Reader reader = new FileReader(file);
              BufferedReader bufferReader = new BufferedReader(reader)) {
 
@@ -89,11 +89,11 @@ public class FileUtils {
 
                 tokenHeader[1] = tokenHeader[1].split(target)[0];
 
-                token.put(tokenHeader[0], tokenHeader[1]);
+                value = tokenHeader[1];
             }
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
-        return token;
+        return value;
     }
 }

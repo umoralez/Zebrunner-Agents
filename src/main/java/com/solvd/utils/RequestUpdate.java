@@ -12,7 +12,7 @@ public class RequestUpdate {
     private static final File propertiesPath = new File(System.getProperty("user.dir")
             + "/src/main/resources/config.properties");
 
-    public static String addQueryParamsValues(String endpointKey, String value) {
+    public static String addQueryParamsValue(String endpointKey, String value) {
         String endpoint = null;
         try (Reader reader = new FileReader(propertiesPath);
              BufferedReader bufferReader = new BufferedReader(reader)) {
@@ -31,5 +31,13 @@ public class RequestUpdate {
         }
         return endpoint;
     }
+
+    public static String completeEndpoint(String endpointKey, String restOfEndpoint) {
+        File idPath = new File(System.getProperty("user.dir")
+                + "/src/main/resources/id.properties");
+
+        return addQueryParamsValue(endpointKey, FileUtils.readValueInProperties(idPath, "id")).concat(restOfEndpoint);
+    }
+    
 
 }

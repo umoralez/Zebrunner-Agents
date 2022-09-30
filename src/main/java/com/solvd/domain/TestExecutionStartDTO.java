@@ -2,14 +2,14 @@ package com.solvd.domain;
 
 import com.solvd.utils.DateFormatter;
 
-public class TestExecutionDTO {
+public class TestExecutionStartDTO {
 
     String name;
     String className;
     String methodName;
     String startedAt;
 
-    public TestExecutionDTO(String name, String className, String methodName) {
+    public TestExecutionStartDTO(String name, String className, String methodName) {
         this.name = name;
         this.className = className;
         this.methodName = methodName;
