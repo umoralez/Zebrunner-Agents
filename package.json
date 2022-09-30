@@ -1,0 +1,33 @@
+{
+  "name": "zebrunner-agents",
+  "version": "1.0.0",
+  "description": "Agent for Zebrunner using Cypress",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "npx tsc && node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umoralez/Zebrunner-Agents.git"
+  },
+  "keywords": [
+    "cypress",
+    "javascript",
+    "zebrunner"
+  ],
+  "author": "SOLVD",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umoralez/Zebrunner-Agents/issues"
+  },
+  "homepage": "https://github.com/umoralez/Zebrunner-Agents#readme",
+  "devDependencies": {
+    "@types/node": "^18.7.23",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.3"
+  }
+}
