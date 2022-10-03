@@ -10,7 +10,7 @@ public class RequestUpdate {
 
     private static final Logger LOGGER = LogManager.getLogger(RequestUpdate.class);
     private static final File propertiesPath = new File(System.getProperty("user.dir")
-            + "/src/main/resources/config.properties");
+            + "/src/main/resources/endpoint.properties");
 
     public static String addQueryParamsValue(String endpointKey, String value) {
         String endpoint = null;

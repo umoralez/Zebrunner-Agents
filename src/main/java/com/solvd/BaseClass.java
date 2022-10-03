@@ -22,6 +22,8 @@ public abstract class BaseClass {
     protected static final File idPath = new File(System.getProperty("user.dir")
             + "/src/main/resources/id.properties");
     protected Properties properties;
+    protected static final File endpointPath = new File(System.getProperty("user.dir")
+            + "/src/main/resources/endpoint.properties");
 
     protected final StringBuilder endpointTestStart;
     protected Gson gson = new Gson();
@@ -33,7 +35,7 @@ public abstract class BaseClass {
     private void propertiesReader() {
 
         try (FileInputStream fileInput = new FileInputStream(System.getProperty("user.dir")
-                + "/src/main/resources/config.properties")) {
+                + "/src/main/resources/endpoint.properties")) {
 
             properties = new Properties();
             properties.load(fileInput);

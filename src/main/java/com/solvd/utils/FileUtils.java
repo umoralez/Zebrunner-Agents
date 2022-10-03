@@ -48,34 +48,6 @@ public class FileUtils {
         return word;
     }
 
-    //Add token in properties file
-    public static void addValueProperties(String value, File file, String key) {
-
-        //Append the token if the token doesn't exist in the properties file
-        if(!FileUtils.replaceValueInProperties(value, file, key)) {
-            try (FileWriter fileWriter = new FileWriter(file, true)) {
-
-                fileWriter.append("Authorization=Bearer ");
-                fileWriter.append(String.valueOf(value));
-
-            } catch (IOException e) {
-                LOGGER.error(e.getMessage());
-            }
-        }
-    }
-    //Replace existent value in properties file for the new one
-    private static boolean replaceValueInProperties(String value, File file, String key) {
-
-        try(FileWriter writer = new FileWriter(file)) {
-            writer.flush();
-            writer.append(key);
-            writer.append(String.valueOf(value));
-            return true;
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage());
-        }
-        return false;
-    }
     public static String readValueInProperties(File file, String target) {
         String value = "";
         try (Reader reader = new FileReader(file);
@@ -100,17 +72,18 @@ public class FileUtils {
 
     public static void changeProperties(String value, String key, File file){
         try {
-            FileInputStream in = new FileInputStream(file);
-            Properties props = new Properties();
-            props.load(in);
-            in.close();
+            FileInputStream inputStream = new FileInputStream(file);
+            Properties properties = new Properties();
+
+            properties.load(inputStream);
+            inputStream.close();
+
             FileOutputStream out = new FileOutputStream(file);
-            props.setProperty(key, value);
-            props.store(out, null);
+            properties.setProperty(key, value);
+            properties.store(out, null);
+
             out.close();
-        } catch (FileNotFoundException e) {
-            LOGGER.error(e.getMessage());
-        }catch(IOException ioe){
+        } catch(IOException ioe){
             LOGGER.error(ioe.getMessage());
         }
     }
