@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Builder
+@ToString
 public class ReportingConfiguration {
 
 	private Boolean reportingEnabled;
@@ -24,6 +26,7 @@ public class ReportingConfiguration {
 	@Setter
 	@NoArgsConstructor
 	@AllArgsConstructor
+	@ToString
 	public static class ServerConfiguration {
 
 		private String hostname;
@@ -35,6 +38,7 @@ public class ReportingConfiguration {
 	@Setter
 	@NoArgsConstructor
 	@AllArgsConstructor
+	@ToString
 	public static class RunConfiguration {
 
 		private Boolean retryKnownIssues;
@@ -45,6 +49,7 @@ public class ReportingConfiguration {
 		@Setter
 		@NoArgsConstructor
 		@AllArgsConstructor
+		@ToString
 		public static class TestCaseStatus {
 
 			private String onPass;
