@@ -6,7 +6,7 @@ import com.solvd.utils.DateFormatter;
 public class EntryPoint {
     public static void main(String[] args) {
 
-        final ZebrunnerAPI API = new ZebrunnerAPI();
+        final ZebrunnerAPI API = ZebrunnerAPI.getInstance();
 
         API.tokenGeneration();
 

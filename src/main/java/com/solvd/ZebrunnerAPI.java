@@ -18,6 +18,9 @@ public class ZebrunnerAPI extends BaseClass {
 
     private final String endpoint = properties.getProperty("URL");
     private final ResponseDTO DATA = new ResponseDTO();
+    private static ZebrunnerAPI INSTANCE;
+
+    private ZebrunnerAPI() {}
     public void tokenGeneration() {
         String token = FileUtils.propertyValue("access-token").get("access-token");
         TokenGenerationDTO bodyObject = new TokenGenerationDTO(token);
@@ -124,7 +127,6 @@ public class ZebrunnerAPI extends BaseClass {
 
         RequestBody body = RequestBody.create(JSON, bodyJson);
 
-        String keyToken = "Authorization";
         Request request = new Request.Builder()
                 .url(endpointTestExecutionFinishRun)
                 .put(body)
@@ -162,5 +164,12 @@ public class ZebrunnerAPI extends BaseClass {
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
+    }
+
+    public static ZebrunnerAPI getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ZebrunnerAPI();
+        }
+        return INSTANCE;
     }
 }
