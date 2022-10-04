@@ -1,4 +1,4 @@
-export type AuthToken = {
+export type authToken = {
   userID: number;
   permissionsSuperset:  string[];
   projectAssignments:  projectAssignment[];
