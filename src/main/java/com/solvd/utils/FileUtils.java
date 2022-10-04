@@ -70,21 +70,4 @@ public class FileUtils {
         return value;
     }
 
-    public static void changeProperties(String value, String key, File file){
-        try {
-            FileInputStream inputStream = new FileInputStream(file);
-            Properties properties = new Properties();
-
-            properties.load(inputStream);
-            inputStream.close();
-
-            FileOutputStream out = new FileOutputStream(file);
-            properties.setProperty(key, value);
-            properties.store(out, null);
-
-            out.close();
-        } catch(IOException ioe){
-            LOGGER.error(ioe.getMessage());
-        }
-    }
 }
