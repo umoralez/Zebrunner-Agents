@@ -116,7 +116,7 @@ public class ZebrunnerAPI extends BaseClass {
 				.concat(RequestUpdate.addQueryParamsValue("ENP_EXECUTION", projectId));
 
 		BufferedImage bufferedImage;
-		MediaType MEDIA_TYPE_HTTP = MediaType.parse("image");
+		MediaType MEDIA_TYPE_HTTP = MediaType.parse("png");
 
 		try {
 			bufferedImage = ImageIO.read(screenshot);
