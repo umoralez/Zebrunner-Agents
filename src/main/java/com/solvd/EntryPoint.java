@@ -50,7 +50,5 @@ public class EntryPoint {
 
 
         API.testRunFinishRequest();
-
-
     }
 }
