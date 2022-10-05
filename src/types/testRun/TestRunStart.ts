@@ -1,4 +1,4 @@
-export type TestRunStart = {
+export type testRunStart = {
   id?: number;
   projectKey: string;
   uuid?: string;
