@@ -2,49 +2,52 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import axios from 'axios';
 import { authToken } from '../types/auth/AuthToken';
-import { TestRunStart} from 'src/types/testRun/TestRunStart';
+import { testRunStart} from 'src/types/testRun/TestRunStart';
+import { testExecutionStart } from 'src/types/testRun/TestExecutionStart';
 
 /**
  * Get the refresh authorization token
  * @param  {[authToken]} authToken We give our authorization token to get a new one.
  * @return {[authToken]}      Return the object with the new authorization token.
  */
-export function getRefreshToken(authToken: authToken): authToken {
-  axios.post(process.env.BASE_URL + process.env.ENP_TOKEN_GENERATE, {
+export const getRefreshToken = async () : Promise<authToken> => {
+  const {data} = await axios.post<authToken>(process.env.BASE_URL + process.env.ENP_TOKEN_GENERATE, {
     "refreshToken": process.env.ZEBRUNNER_API_TOKEN,
-  }).then((response) => {
-    authToken = response.data;
-    console.log("Refresh Token");
-    console.log(authToken.authToken);
-  }).catch((error) => {
-    console.log(error);
-  });
-  return authToken;
+  })
+  return data;
 }
 
 /**
  * Get the Test Run ID and the information about the test run.
- * @param  {[TestRunStart]} testRunStart We give the testRunStart object to get the test run ID.
- * @return {[TestRunStart]}      Return the object with the new test run ID.
+ * Act like a suite container for the test executions.
+ * @param  {[testRunStart]} testRunStart We give the testRunStart object to get the test run ID.
+ * @return {[testRunStart]}      Return the object with the new test run ID.
  */
-export function getTestRunStart( testRunStart: TestRunStart): TestRunStart{
-  axios.post(process.env.BASE_URL + process.env.ENP_TEST_RUN_START+testRunStart.projectKey, {
-    "name": testRunStart.name,
-    "startedAt": testRunStart.startedAt,
-    "status": testRunStart.status,
-    "framework": testRunStart.framework
+export const getTestRunStart = async (testRunStart: testRunStart) : Promise<testRunStart> => {
+  const { data } = await axios.post<testRunStart>(process.env.BASE_URL + process.env.ENP_TEST_RUN_START+testRunStart.projectKey, {
+    ...testRunStart
   }, {
     headers: {
       'Authorization': 'Bearer ' + process.env.ZEBRUNNER_REFRESH_TOKEN
     }
-  }).then((response) => {
-    testRunStart = response.data;
-    console.log(response.data);
-    console.log("Data de TestRunStart");
-    console.log(testRunStart);
-    
-  }).catch((error) => {
-    console.log(error);
   });
-  return testRunStart;
+  return data;
+}
+
+/**
+ * Get the Test Run ID and the information about the test run.
+ * @param  {[testRunStart]} testRunStart We give the testRunStart object to get the test run ID.
+ * @return {[testRunStart]}      Return the object with the new test run ID.
+ */
+export const setTestExecutionStart = async (testRunId: number, testExecutionStart: testExecutionStart) : Promise<testExecutionStart> => {
+  let preparedURL : string = process.env.ENP_TEST_EXECUTION_START.replace("testRunId", testRunId.toString());
+  
+  const {data} = await axios.post<testExecutionStart>(process.env.BASE_URL + preparedURL, {
+    ...testExecutionStart
+  }, {
+    headers: {
+      'Authorization': 'Bearer ' + process.env.ZEBRUNNER_REFRESH_TOKEN
+    }
+  });
+  return data;
 }
