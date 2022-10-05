@@ -2,13 +2,7 @@ package com.solvd;
 
 import static com.solvd.utils.FileUtils.removeInitialSpaces;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
-import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import com.google.gson.JsonObject;
 import com.solvd.domain.ResponseDTO;
@@ -22,7 +16,6 @@ import com.solvd.domain.TokenGenerationDTO;
 import com.solvd.utils.FileUtils;
 import com.solvd.utils.RequestUpdate;
 import com.solvd.utils.ResponseUtils;
-import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
@@ -230,33 +223,28 @@ public class ZebrunnerAPI extends BaseClass {
 		return INSTANCE;
 	}
 
-	public void testScreenshotCollectionRequest(File screenshot) {
-
-		String endpointScreenshotCollection = endpoint.concat(RequestUpdate
-				.addQueryParamsValue("ENP_EXECUTION", DATA.getRunId()).concat("/tests/").concat("screenshots/"));
-
-		BufferedImage bufferedImage;
-		MediaType MEDIA_TYPE_HTTP = MediaType.parse("png");
-
-		try {
-			bufferedImage = ImageIO.read(screenshot);
-
-			WritableRaster raster = bufferedImage.getRaster();
-			DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
-
-			byte[] bodyImage = data.getData();
-
-			RequestBody body = RequestBody.create(MEDIA_TYPE_HTTP, bodyImage);
-
-			Request request = new Request.Builder().url(endpointScreenshotCollection).put(body)
-					.addHeader(DATA.getAccessToken(), "Authorization=Bearer ").build();
-
-			Response response = client.newCall(request).execute();
-			response.body().close();
-
-		} catch (IOException e) {
-			LOGGER.error(e.getMessage());
-		}
-
-	}
+	/*
+	 * public void testScreenshotCollectionRequest(File screenshot) {
+	 * 
+	 * String endpointScreenshotCollection = endpoint.concat(RequestUpdate
+	 * .addQueryParamsValue("ENP_EXECUTION",
+	 * DATA.getRunId()).concat("/tests/").concat("screenshots"));
+	 * 
+	 * MediaType MEDIA_TYPE_HTTP = MediaType.parse("image/png");
+	 * 
+	 * RequestBody body = RequestBody.create(MEDIA_TYPE_HTTP, screenshot);
+	 * 
+	 * Request request = new
+	 * Request.Builder().url(endpointScreenshotCollection).put(body)
+	 * .addHeader(DATA.getAccessToken(), "Authorization=Bearer ").build();
+	 * 
+	 * try {
+	 * 
+	 * Response response = client.newCall(request).execute();
+	 * response.body().close();
+	 * 
+	 * } catch (IOException e) { LOGGER.error(e.getMessage()); }
+	 * 
+	 * }
+	 */
 }

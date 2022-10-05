@@ -1,7 +1,5 @@
 package com.solvd;
 
-import java.io.File;
-
 import com.google.gson.JsonObject;
 
 public class EntryPoint {
@@ -22,7 +20,7 @@ public class EntryPoint {
 		JsonObject endpointTSH = new JsonObject();
 		endpointTSH.addProperty("name", "Test headless");
 
-		API.testStartRequestHeadless(endpointTSH);
+		// API.testStartRequestHeadless(endpointTSH);
 
 		JsonObject endpointTSEH = new JsonObject();
 		endpointTSEH.addProperty("name", "Test headless");
@@ -37,8 +35,8 @@ public class EntryPoint {
 		API.testExecutionFinishRequest(testEFDH, true);
 		// endregion
 
-		File screenshotFile = new File("/screenshot.png");
-		API.testScreenshotCollectionRequest(screenshotFile);
+		// File screenshotFile = new File("./desktop/screenshot.png");
+		// API.testScreenshotCollectionRequest(screenshotFile);
 
 		JsonObject endpointTSE = new JsonObject();
 		endpointTSE.addProperty("name", "Test l2");
