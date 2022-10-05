@@ -109,7 +109,7 @@ public class ZebrunnerAPI extends BaseClass {
 		}
 	}
 
-	public void testScreenshotCollectionRequest(JsonObject endpointData, File screenshot) {
+	public void testScreenshotCollectionRequest(File screenshot) {
 		String projectId = FileUtils.readValueInProperties(idPath, "id") + "/tests/"
 				+ FileUtils.readValueInProperties(idPath, "test_id=") + "/screenshots";
 		String endpointScreenshotCollection = endpoint
