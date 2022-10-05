@@ -2,6 +2,7 @@ package com.solvd;
 
 import com.google.gson.JsonObject;
 import com.solvd.domain.*;
+import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.FileUtils;
 import com.solvd.utils.RequestUpdate;
 import com.solvd.utils.ResponseUtils;
@@ -22,11 +23,14 @@ public class ZebrunnerAPI extends BaseClass {
     private final ResponseDTO DATA = new ResponseDTO();
     private static ZebrunnerAPI INSTANCE;
 
-    private ZebrunnerAPI() {
+    private ZebrunnerAPI() throws AgentFileNotFound {
+        super();
     }
 
-    public void tokenGeneration() {
-        String token = FileUtils.propertyValue("access-token").get("access-token");
+    public void tokenGeneration() throws AgentFileNotFound {
+
+        //String token = FileUtils.propertyValue("access-token").get("access-token");
+        String token = agentConfigs.getAccessToken();
         TokenGenerationDTO bodyObject = new TokenGenerationDTO(token);
         String tokenGenerationEndpoint = endpoint.concat(FileUtils.readValueInProperties(endpointPath, "ENP_TOKEN_GENERATE"));
 
@@ -51,10 +55,10 @@ public class ZebrunnerAPI extends BaseClass {
         }
     }
 
-    public void testStartRequest(JsonObject endpointData) {
+    public void testStartRequest(JsonObject endpointData) throws AgentFileNotFound {
 
-        String projectKey = removeInitialSpaces(FileUtils.propertyValue("project-key").get("project-key"));
-
+        //String projectKey = removeInitialSpaces(FileUtils.propertyValue("project-key").get("project-key"));
+        String projectKey = agentConfigs.getKeyProject();
         String endpointTestStart = endpoint.concat(RequestUpdate.addQueryParamsValue("ENP_RUN_START", projectKey));
 
         TestStartDTO bodyObject = new TestStartDTO(
@@ -245,7 +249,7 @@ public class ZebrunnerAPI extends BaseClass {
         }
     }
 
-    public static ZebrunnerAPI getInstance() {
+    public static ZebrunnerAPI getInstance() throws AgentFileNotFound {
         if (INSTANCE == null) {
             INSTANCE = new ZebrunnerAPI();
         }

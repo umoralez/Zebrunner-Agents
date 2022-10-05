@@ -1,5 +1,6 @@
 package com.solvd.utils;
 
+import com.solvd.domain.AgentDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,9 +12,10 @@ import java.util.Optional;
 public class FileUtils {
     private static final Logger LOGGER = LogManager.getLogger(FileUtils.class);
 
-    public static Map<String, String> propertyValue(String... keys) {
+    public static Map<String, String> propertyValue(String... keys) throws AgentFileNotFound {
         Map<String, String> properties = new HashMap<>();
-        File agentFile = new File(System.getProperty("user.dir") + "/src/main/resources/agent.yaml");
+        File agentFile = setAgentFile();
+
         try (Reader reader = new FileReader(agentFile);
              BufferedReader bufferReader = new BufferedReader(reader)) {
 
@@ -67,5 +69,41 @@ public class FileUtils {
             LOGGER.error(e.getMessage());
         }
         return value;
+    }
+
+    private static File setAgentFile() throws AgentFileNotFound {
+        String[] files = new File(System.getProperty("user.dir").concat("/src/main/resources")).list();
+
+        try {
+            for (String file : files) {
+                if (file.equals("agent.yaml")) {
+                    return new File(System.getProperty("user.dir").concat("/src/main/resources/agent.yaml"));
+                }
+                if (file.equals("agent.properties")) {
+                    return new File(System.getProperty("user.dir").concat("/src/main/resources/agent.properties"));
+                }
+            }
+            throw new AgentFileNotFound("You have to provide agent.yaml or agent.properties file.");
+        } catch (NullPointerException e) {
+            throw new AgentFileNotFound("You have to provide agent.yaml or agent.properties file.");
+        }
+    }
+
+    public static AgentDTO setAgentDAO() throws AgentFileNotFound {
+
+        File agentFile = setAgentFile();
+        AgentDTO agentDTO = new AgentDTO();
+        Map<String, String> agentItems;
+
+        if (agentFile.getName().contains("yaml")) {
+            agentItems = propertyValue("project-key", "access-token");
+            agentDTO.setKeyProject(agentItems.get("project-key"));
+            agentDTO.setAccessToken(agentItems.get("access-token"));
+        } else {
+            agentItems = propertyValue("reporting.project-key", "reporting.server.access-token");
+            agentDTO.setKeyProject(agentItems.get("reporting.project-key"));
+            agentDTO.setAccessToken(agentItems.get("reporting.server.access-token"));
+        }
+        return agentDTO;
     }
 }
