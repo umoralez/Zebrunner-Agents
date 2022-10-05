@@ -48,7 +48,6 @@ public class EntryPoint {
 
         API.testExecutionFinishRequest(testEFD, false);
 
-
         API.testRunFinishRequest();
     }
 }
