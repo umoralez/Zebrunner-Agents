@@ -8,10 +8,10 @@ import com.solvd.utils.ResponseUtils;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
-import com.squareup.okhttp.ResponseBody;
 
 
 import java.io.IOException;
+import java.util.Queue;
 
 import static com.solvd.utils.FileUtils.removeInitialSpaces;
 
@@ -243,6 +243,31 @@ public class ZebrunnerAPI extends BaseClass {
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
+    }
+
+    public void sendlogs(Queue<LogDTO> logBatch){
+        String endpointLogs = endpoint
+                .concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
+                .concat(DATA.getRunId())
+                .concat("/logs");
+
+        String bodyJson = gson.toJson(logBatch);
+
+        RequestBody body = RequestBody.create(JSON, bodyJson);
+
+        Request request = new Request.Builder().url(endpointLogs)
+                .put(body)
+                .addHeader("Authorization", "Bearer " + DATA.getAccessToken())
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+
+            response.body().close();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+        
     }
 
     public static ZebrunnerAPI getInstance() {

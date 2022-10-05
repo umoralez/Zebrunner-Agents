@@ -1,7 +1,6 @@
 package com.solvd;
 
 import com.google.gson.JsonObject;
-import com.solvd.utils.DateFormatter;
 
 public class EntryPoint {
     public static void main(String[] args) {
