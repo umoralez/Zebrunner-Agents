@@ -5,12 +5,15 @@ import com.solvd.utils.DateFormatter;
 public class TestRunFinishDTO {
 
     private String endedAt;
-    public TestRunFinishDTO(String endedAt) {
+
+    public TestRunFinishDTO() {
         this.endedAt = DateFormatter.getCurrentTime();
     }
+
     public String getEndedAt() {
         return endedAt;
     }
+
     public void setEndedAt(String endedAt) {
         this.endedAt = endedAt;
     }

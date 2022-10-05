@@ -17,21 +17,17 @@ public abstract class BaseClass {
     protected static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     protected static final OkHttpClient client = new OkHttpClient();
     protected static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    protected static final File tokenPath = new File(System.getProperty("user.dir")
-            + "/src/main/resources/token.properties");
-    protected static final File idPath = new File(System.getProperty("user.dir")
-            + "/src/main/resources/id.properties");
     protected Properties properties;
-    protected static final File endpointPath = new File(System.getProperty("user.dir")
-            + "/src/main/resources/endpoint.properties");
+    protected static final File endpointPath = new File("./src/main/resources/endpoint.properties");
 
     protected final StringBuilder endpointTestStart;
     protected Gson gson = new Gson();
 
-    public BaseClass (){
+    public BaseClass() {
         propertiesReader();
         endpointTestStart = new StringBuilder(properties.getProperty("URL"));
     }
+
     private void propertiesReader() {
 
         try (FileInputStream fileInput = new FileInputStream(System.getProperty("user.dir")
@@ -44,4 +40,5 @@ public abstract class BaseClass {
             throw new RuntimeException(e);
         }
     }
+
 }

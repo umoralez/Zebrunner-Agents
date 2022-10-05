@@ -7,7 +7,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 
 public class FileUtils {
     private static final Logger LOGGER = LogManager.getLogger(FileUtils.class);
@@ -68,23 +67,5 @@ public class FileUtils {
             LOGGER.error(e.getMessage());
         }
         return value;
-    }
-
-    public static void changeProperties(String value, String key, File file){
-        try {
-            FileInputStream inputStream = new FileInputStream(file);
-            Properties properties = new Properties();
-
-            properties.load(inputStream);
-            inputStream.close();
-
-            FileOutputStream out = new FileOutputStream(file);
-            properties.setProperty(key, value);
-            properties.store(out, null);
-
-            out.close();
-        } catch(IOException ioe){
-            LOGGER.error(ioe.getMessage());
-        }
     }
 }
