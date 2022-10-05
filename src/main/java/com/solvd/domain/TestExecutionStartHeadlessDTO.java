@@ -2,17 +2,12 @@ package com.solvd.domain;
 
 import com.solvd.utils.DateFormatter;
 
-public class TestStartDTO {
-    private String name;
-    private String framework;
-    private String startedAt;
+public class TestExecutionStartHeadlessDTO {
+    String name;
+    String startedAt;
 
-    public TestStartDTO() {
-    }
-
-    public TestStartDTO(String name, String framework) {
+    public TestExecutionStartHeadlessDTO(String name) {
         this.name = name;
-        this.framework = framework;
         this.startedAt = DateFormatter.getCurrentTime();
     }
 
@@ -22,14 +17,6 @@ public class TestStartDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getFramework() {
-        return framework;
-    }
-
-    public void setFramework(String framework) {
-        this.framework = framework;
     }
 
     public String getStartedAt() {

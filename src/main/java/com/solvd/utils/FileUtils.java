@@ -7,7 +7,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 
 public class FileUtils {
     private static final Logger LOGGER = LogManager.getLogger(FileUtils.class);

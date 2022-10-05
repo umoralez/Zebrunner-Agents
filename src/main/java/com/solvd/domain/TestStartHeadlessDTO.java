@@ -2,18 +2,16 @@ package com.solvd.domain;
 
 import com.solvd.utils.DateFormatter;
 
-public class TestExecutionStartDTO {
+public class TestStartHeadlessDTO {
 
     String className;
     String name;
     String methodName;
-    String startedAt;
 
-    public TestExecutionStartDTO(String name, String className, String methodName) {
+    public TestStartHeadlessDTO(String name, String className, String methodName) {
         this.name = name;
         this.className = className;
         this.methodName = methodName;
-        this.startedAt = DateFormatter.getCurrentTime();
     }
 
     public String getName() {
@@ -40,11 +38,4 @@ public class TestExecutionStartDTO {
         this.methodName = methodName;
     }
 
-    public String getStartedAt() {
-        return startedAt;
-    }
-
-    public void setStartedAt(String startedAt) {
-        this.startedAt = startedAt;
-    }
 }

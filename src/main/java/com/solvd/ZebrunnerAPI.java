@@ -8,6 +8,8 @@ import com.solvd.utils.ResponseUtils;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import com.squareup.okhttp.ResponseBody;
+
 
 import java.io.IOException;
 
@@ -20,7 +22,9 @@ public class ZebrunnerAPI extends BaseClass {
     private final ResponseDTO DATA = new ResponseDTO();
     private static ZebrunnerAPI INSTANCE;
 
-    private ZebrunnerAPI() {}
+    private ZebrunnerAPI() {
+    }
+
     public void tokenGeneration() {
         String token = FileUtils.propertyValue("access-token").get("access-token");
         TokenGenerationDTO bodyObject = new TokenGenerationDTO(token);
@@ -33,14 +37,14 @@ public class ZebrunnerAPI extends BaseClass {
                 .url(tokenGenerationEndpoint)
                 .post(body)
                 .build();
-        
-        try  {
+
+        try {
             Response response = client.newCall(request).execute();
             String bodyResponse = response.body().string();
 
             response.body().close();
 
-           DATA.setAccessToken(ResponseUtils.splitResponse(bodyResponse, "\"authToken\""));
+            DATA.setAccessToken(ResponseUtils.splitResponse(bodyResponse, "\"authToken\""));
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
@@ -66,23 +70,88 @@ public class ZebrunnerAPI extends BaseClass {
                 .addHeader("Authorization", "Bearer " + DATA.getAccessToken())
                 .build();
 
-        try  {
+        try {
             Response response = client.newCall(request).execute();
             String bodyResponse = response.body().string();
 
             response.body().close();
 
             DATA.setRunId(ResponseUtils.splitResponse(bodyResponse, "\"id\""));
-            
+
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
     }
 
+    public void testStartRequestHeadless(JsonObject endpointData) {
+        String endpointTestExecutionHeadless = endpoint
+                .concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
+                .concat(DATA.getRunId())
+                .concat("/tests?headless=true");
+
+        TestExecutionStartHeadlessDTO bodyObject = new TestExecutionStartHeadlessDTO(
+                endpointData.get("name").getAsString()
+        );
+
+        String bodyJson = gson.toJson(bodyObject);
+
+        RequestBody body = RequestBody.create(JSON, bodyJson);
+
+        Request request = new Request.Builder()
+                .url(endpointTestExecutionHeadless)
+                .post(body)
+                .addHeader("Authorization", "Bearer " + DATA.getAccessToken())
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            String responseBody = response.body().string();
+
+            response.body().close();
+
+            DATA.setTestIdHeadless(ResponseUtils.splitResponse(responseBody, "\"id\""));
+
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+    public void testExecutionStartHeadless(JsonObject endpointData) {
+        String endpointTestExecutionHeadless = endpoint
+                .concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
+                .concat(DATA.getRunId())
+                .concat("/tests/")
+                .concat(DATA.getTestIdHeadless())
+                .concat("?headless=true");
+
+        TestStartHeadlessDTO bodyObject = new TestStartHeadlessDTO(
+                endpointData.get("name").getAsString(),
+                endpointData.get("className").getAsString(),
+                endpointData.get("methodName").getAsString()
+        );
+
+        String bodyJson = gson.toJson(bodyObject);
+
+        RequestBody body = RequestBody.create(JSON, bodyJson);
+
+        Request request = new Request.Builder()
+                .url(endpointTestExecutionHeadless)
+                .put(body)
+                .addHeader("Authorization", "Bearer " + DATA.getAccessToken())
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+
+            response.body().close();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
     public void testExecutionStart(JsonObject endpointData) {
 
         String endpointTestExecutionStart = endpoint
-                .concat(FileUtils.readValueInProperties(endpointPath,"ENP_EXECUTION"))
+                .concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
                 .concat(DATA.getRunId())
                 .concat("/tests");
 
@@ -95,34 +164,44 @@ public class ZebrunnerAPI extends BaseClass {
 
         RequestBody body = RequestBody.create(JSON, bodyJson);
 
-        Request request = new Request.Builder().url(endpointTestExecutionStart)
+        Request request = new Request.Builder()
+                .url(endpointTestExecutionStart)
                 .post(body)
                 .addHeader("Authorization", "Bearer " + DATA.getAccessToken())
                 .build();
 
-        try  {
+        try {
             Response response = client.newCall(request).execute();
             String bodyResponse = response.body().string();
 
             response.body().close();
             DATA.setTestId(ResponseUtils.splitResponse(bodyResponse, "\"id\""));
-            
+
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
     }
 
+    /**
+     *
+     * @param endpointData
+     * @param headless specify the test's type (normal or headless)
+     */
+    public void testExecutionFinishRequest(JsonObject endpointData, Boolean headless) {
 
-    public void testExecutionFinishRequest(JsonObject endpointData){
         String endpointTestExecutionFinishRun = endpoint
-                .concat(FileUtils.readValueInProperties(endpointPath,"ENP_EXECUTION"))
+                .concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
                 .concat(DATA.getRunId())
-                .concat("/tests/")
-                .concat(DATA.getTestId());
+                .concat("/tests/");
+
+        if (headless) {
+            endpointTestExecutionFinishRun += DATA.getTestIdHeadless();
+        } else {
+            endpointTestExecutionFinishRun += DATA.getTestId();
+        }
 
         TestExcecutionFinishDTO bodyObject = new TestExcecutionFinishDTO(
-                endpointData.get("result").getAsString(),
-                endpointData.get("endedAt").getAsString());
+                endpointData.get("result").getAsString());
         String bodyJson = gson.toJson(bodyObject);
 
         RequestBody body = RequestBody.create(JSON, bodyJson);
@@ -133,7 +212,7 @@ public class ZebrunnerAPI extends BaseClass {
                 .addHeader("Authorization", "Bearer " + DATA.getAccessToken())
                 .build();
 
-        try  {
+        try {
             Response response = client.newCall(request).execute();
             response.body().close();
 
@@ -142,12 +221,12 @@ public class ZebrunnerAPI extends BaseClass {
         }
     }
 
-    public void testRunFinishRequest(JsonObject endExecution){
+    public void testRunFinishRequest() {
         String endpointTestFinishRun = endpoint
-                .concat(FileUtils.readValueInProperties(endpointPath,"ENP_RUN_FINISH"))
+                .concat(FileUtils.readValueInProperties(endpointPath, "ENP_RUN_FINISH"))
                 .concat(DATA.getRunId());
 
-        TestRunFinishDTO bodyObject = new TestRunFinishDTO(endExecution.get("endedAt").getAsString());
+        TestRunFinishDTO bodyObject = new TestRunFinishDTO();
         String bodyJson = gson.toJson(bodyObject);
 
         RequestBody body = RequestBody.create(JSON, bodyJson);
@@ -157,7 +236,7 @@ public class ZebrunnerAPI extends BaseClass {
                 .addHeader("Authorization", "Bearer " + DATA.getAccessToken())
                 .build();
 
-        try  {
+        try {
             Response response = client.newCall(request).execute();
 
             response.body().close();

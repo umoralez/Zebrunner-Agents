@@ -18,14 +18,16 @@ public abstract class BaseClass {
     protected static final OkHttpClient client = new OkHttpClient();
     protected static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     protected Properties properties;
-    protected static final File endpointPath= new File("./src/main/resources/endpoint.properties");
+    protected static final File endpointPath = new File("./src/main/resources/endpoint.properties");
 
     protected final StringBuilder endpointTestStart;
     protected Gson gson = new Gson();
-    public BaseClass (){
+
+    public BaseClass() {
         propertiesReader();
         endpointTestStart = new StringBuilder(properties.getProperty("URL"));
     }
+
     private void propertiesReader() {
 
         try (FileInputStream fileInput = new FileInputStream(System.getProperty("user.dir")

@@ -17,14 +17,14 @@ public class RequestUpdate {
         try (Reader reader = new FileReader(propertiesPath);
              BufferedReader bufferReader = new BufferedReader(reader)) {
 
-                Optional<String> targetLine = bufferReader.lines()
-                        .filter(k -> k.contains(endpointKey))
-                        .findFirst();
+            Optional<String> targetLine = bufferReader.lines()
+                    .filter(k -> k.contains(endpointKey))
+                    .findFirst();
 
-                if (targetLine.isPresent()) {
+            if (targetLine.isPresent()) {
 
-                    endpoint = targetLine.get().split("=", 2)[1].replace(" ", "").concat(value);
-                }
+                endpoint = targetLine.get().split("=", 2)[1].replace(" ", "").concat(value);
+            }
 
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
@@ -38,6 +38,6 @@ public class RequestUpdate {
 
         return addQueryParamsValue(endpointKey, FileUtils.readValueInProperties(idPath, "id")).concat(restOfEndpoint);
     }
-    
+
 
 }

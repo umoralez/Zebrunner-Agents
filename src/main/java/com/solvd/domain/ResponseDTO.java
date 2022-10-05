@@ -5,6 +5,8 @@ public class ResponseDTO {
     private String runId;
     private String testId;
 
+    private String testIdHeadless;
+
     public String getAccessToken() {
         return accessToken;
     }
@@ -27,5 +29,13 @@ public class ResponseDTO {
 
     public void setTestId(String testId) {
         this.testId = testId;
+    }
+
+    public String getTestIdHeadless() {
+        return testIdHeadless;
+    }
+
+    public void setTestIdHeadless(String testIdHeadless) {
+        this.testIdHeadless = testIdHeadless;
     }
 }
