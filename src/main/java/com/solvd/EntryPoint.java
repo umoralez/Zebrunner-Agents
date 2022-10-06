@@ -2,66 +2,41 @@ package com.solvd;
 
 import com.google.gson.JsonObject;
 import com.solvd.utils.AgentFileNotFound;
+import com.solvd.utils.DateFormatter;
 
 public class EntryPoint {
 
 	public static void main(String[] args) throws AgentFileNotFound {
 
-		ZebrunnerAPI API = ZebrunnerAPI.getInstance();
-
-		try {
-			API.tokenGeneration();
-		} catch (AgentFileNotFound e) {
-			System.out.println(e.getMessage());
-		}
-
-		JsonObject testDataStart = new JsonObject();
-		testDataStart.addProperty("name", "Headless");
-		testDataStart.addProperty("framework", "testng");
-
-		try {
-			API.testStartRequest(testDataStart);
-		} catch (AgentFileNotFound e) {
-			System.out.println(e.getMessage());
-		}
+		final ZebrunnerAPI API = ZebrunnerAPI.getInstance();
 
 		API.tokenGeneration();
 
-		// region HEADLESS REQUESTS
-		JsonObject endpointTSH = new JsonObject();
-		endpointTSH.addProperty("name", "Test headless");
+		JsonObject testDataStart = new JsonObject();
+		testDataStart.addProperty("name", "Test name l2");
+		testDataStart.addProperty("framework", "testng");
 
-		// API.testStartRequestHeadless(endpointTSH);
-
-		JsonObject endpointTSEH = new JsonObject();
-		endpointTSEH.addProperty("name", "Test headless");
-		endpointTSEH.addProperty("className", "com.name.class");
-		endpointTSEH.addProperty("methodName", "methodName()");
-
-		API.testExecutionStartHeadless(endpointTSEH);
-
-		JsonObject testEFDH = new JsonObject();
-		testEFDH.addProperty("result", "PASSED");
-
-		API.testExecutionFinishRequest(testEFDH, true);
-		// endregion
-
-		// File screenshotFile = new File("./desktop/screenshot.png");
-		// API.testScreenshotCollectionRequest(screenshotFile);
+		API.testStartRequest(testDataStart);
 
 		JsonObject endpointTSE = new JsonObject();
-		endpointTSE.addProperty("name", "Test l2");
+		endpointTSE.addProperty("name", "Test name l1");
 		endpointTSE.addProperty("className", "com.name.class");
-
 		endpointTSE.addProperty("methodName", "methodName()");
+
 		API.testExecutionStart(endpointTSE);
 
-		JsonObject testEFD = new JsonObject();
-		testEFD.addProperty("result", "FAILED");
+		API.testScreenshotCollectionRequest(System.getProperty("user.home").concat("/Desktop/screenshot.png"));
 
-		API.testExecutionFinishRequest(testEFD, false);
+		JsonObject testExecutionFinishedData = new JsonObject();
+		testExecutionFinishedData.addProperty("result", "PASSED");
+		testExecutionFinishedData.addProperty("endedAt", DateFormatter.getCurrentTime());
 
+		API.testExecutionFinishRequest(testExecutionFinishedData, false);
+
+		JsonObject testRunFinishData = new JsonObject();
+		testRunFinishData.addProperty("endedAt", DateFormatter.getCurrentTime());
 		API.testRunFinishRequest();
+
 	}
 
 }

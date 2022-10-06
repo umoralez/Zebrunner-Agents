@@ -1,6 +1,8 @@
 package com.solvd;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.google.gson.JsonObject;
 import com.solvd.domain.ResponseDTO;
@@ -15,6 +17,7 @@ import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.FileUtils;
 import com.solvd.utils.RequestUpdate;
 import com.solvd.utils.ResponseUtils;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
@@ -219,31 +222,6 @@ public class ZebrunnerAPI extends BaseClass {
 		}
 	}
 
-	/*
-	 * public void testScreenshotCollectionRequest(File screenshot) {
-	 * 
-	 * String endpointScreenshotCollection = endpoint.concat(RequestUpdate
-	 * .addQueryParamsValue("ENP_EXECUTION",
-	 * DATA.getRunId()).concat("/tests/").concat("screenshots"));
-	 * 
-	 * MediaType MEDIA_TYPE_HTTP = MediaType.parse("image/png");
-	 * 
-	 * RequestBody body = RequestBody.create(MEDIA_TYPE_HTTP, screenshot);
-	 * 
-	 * Request request = new
-	 * Request.Builder().url(endpointScreenshotCollection).put(body)
-	 * .addHeader(DATA.getAccessToken(), "Authorization=Bearer ").build();
-	 * 
-	 * try {
-	 * 
-	 * Response response = client.newCall(request).execute();
-	 * response.body().close();
-	 * 
-	 * } catch (IOException e) { LOGGER.error(e.getMessage()); }
-	 * 
-	 * }
-	 */
-
 	public static ZebrunnerAPI getInstance() throws AgentFileNotFound {
 		if (INSTANCE == null) {
 			INSTANCE = new ZebrunnerAPI();
@@ -251,4 +229,30 @@ public class ZebrunnerAPI extends BaseClass {
 		return INSTANCE;
 	}
 
+	public void testScreenshotCollectionRequest(String path) {
+
+		byte[] content;
+		try {
+			content = Files.readAllBytes(Paths.get(path));
+
+			String endpointScreenshotCollection = endpoint
+					.concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION")).concat(DATA.getRunId())
+					.concat("/tests/").concat(DATA.getTestId()).concat("/screenshots");
+
+			final MediaType MEDIA_TYPE_HTTP = MediaType.parse("image/png");
+
+			RequestBody body = RequestBody.create(MEDIA_TYPE_HTTP, content);
+
+			Request request = new Request.Builder().url(endpointScreenshotCollection).post(body)
+					.addHeader("Authorization", "Bearer " + DATA.getAccessToken()).build();
+
+			Response response = client.newCall(request).execute();
+			response.body().close();
+		}
+
+		catch (IOException e) {
+			LOGGER.error(e.getMessage());
+
+		}
+	}
 }
