@@ -250,7 +250,7 @@ public class ZebrunnerAPI extends BaseClass {
 			response.body().close();
 		}
 
-		catch (IOException e) {
+		catch (Exception e) {
 			LOGGER.error(e.getMessage());
 
 		}
