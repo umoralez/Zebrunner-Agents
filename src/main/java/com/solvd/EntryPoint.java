@@ -1,18 +1,29 @@
 package com.solvd;
 
 import com.google.gson.JsonObject;
+import com.solvd.utils.AgentFileNotFound;
 
 public class EntryPoint {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws AgentFileNotFound {
 
-		final ZebrunnerAPI API = ZebrunnerAPI.getInstance();
+		ZebrunnerAPI API = ZebrunnerAPI.getInstance();
 
-		API.tokenGeneration();
+		try {
+			API.tokenGeneration();
+		} catch (AgentFileNotFound e) {
+			System.out.println(e.getMessage());
+		}
 
 		JsonObject testDataStart = new JsonObject();
 		testDataStart.addProperty("name", "Headless");
 		testDataStart.addProperty("framework", "testng");
+
+		try {
+			API.testStartRequest(testDataStart);
+		} catch (AgentFileNotFound e) {
+			System.out.println(e.getMessage());
+		}
 
 		API.tokenGeneration();
 

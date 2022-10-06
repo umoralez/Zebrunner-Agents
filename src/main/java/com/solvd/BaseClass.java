@@ -1,6 +1,9 @@
 package com.solvd;
 
 import com.google.gson.Gson;
+import com.solvd.domain.AgentDTO;
+import com.solvd.utils.AgentFileNotFound;
+import com.solvd.utils.FileUtils;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import org.slf4j.Logger;
@@ -20,11 +23,13 @@ public abstract class BaseClass {
     protected Properties properties;
     protected static final File endpointPath = new File("./src/main/resources/endpoint.properties");
 
+    protected static AgentDTO agentConfigs;
     protected final StringBuilder endpointTestStart;
     protected Gson gson = new Gson();
 
-    public BaseClass() {
+    public BaseClass() throws AgentFileNotFound {
         propertiesReader();
+        agentConfigs = FileUtils.setAgentDAO();
         endpointTestStart = new StringBuilder(properties.getProperty("URL"));
     }
 
