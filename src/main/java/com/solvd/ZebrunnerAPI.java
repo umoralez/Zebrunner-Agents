@@ -1,8 +1,6 @@
 package com.solvd;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import com.google.gson.JsonObject;
 import com.solvd.domain.ResponseDTO;
@@ -17,6 +15,7 @@ import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.FileUtils;
 import com.solvd.utils.RequestUpdate;
 import com.solvd.utils.ResponseUtils;
+import com.solvd.utils.Screenshot;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -229,22 +228,21 @@ public class ZebrunnerAPI extends BaseClass {
 		return INSTANCE;
 	}
 
-	public void testScreenshotCollectionRequest(String path) {
+	public void testScreenshotCollectionRequest(Screenshot screenshot) {
 
-		byte[] content;
+		byte[] content = screenshot.getContent();
+		String endpointScreenshotCollection = endpoint
+				.concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION")).concat(DATA.getRunId())
+				.concat("/tests/").concat(DATA.getTestId()).concat("/screenshots");
+
+		final MediaType MEDIA_TYPE_HTTP = MediaType.parse("image/png");
+
+		RequestBody body = RequestBody.create(MEDIA_TYPE_HTTP, content);
+
+		Request request = new Request.Builder().url(endpointScreenshotCollection).post(body)
+				.addHeader("Authorization", "Bearer " + DATA.getAccessToken()).build();
+
 		try {
-			content = Files.readAllBytes(Paths.get(path));
-
-			String endpointScreenshotCollection = endpoint
-					.concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION")).concat(DATA.getRunId())
-					.concat("/tests/").concat(DATA.getTestId()).concat("/screenshots");
-
-			final MediaType MEDIA_TYPE_HTTP = MediaType.parse("image/png");
-
-			RequestBody body = RequestBody.create(MEDIA_TYPE_HTTP, content);
-
-			Request request = new Request.Builder().url(endpointScreenshotCollection).post(body)
-					.addHeader("Authorization", "Bearer " + DATA.getAccessToken()).build();
 
 			Response response = client.newCall(request).execute();
 			response.body().close();

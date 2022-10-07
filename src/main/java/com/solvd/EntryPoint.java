@@ -3,6 +3,7 @@ package com.solvd;
 import com.google.gson.JsonObject;
 import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.DateFormatter;
+import com.solvd.utils.Screenshot;
 
 public class EntryPoint {
 
@@ -25,7 +26,9 @@ public class EntryPoint {
 
 		API.testExecutionStart(endpointTSE);
 
-		API.testScreenshotCollectionRequest(System.getProperty("user.home").concat("/Desktop/screenshot.png"));
+		Screenshot screenshot = new Screenshot();
+		screenshot.takeScreenshot();
+		API.testScreenshotCollectionRequest(screenshot);
 
 		JsonObject testExecutionFinishedData = new JsonObject();
 		testExecutionFinishedData.addProperty("result", "PASSED");
