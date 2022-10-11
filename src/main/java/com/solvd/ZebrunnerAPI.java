@@ -7,6 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.solvd.domain.LabelItemDTO;
+import com.solvd.domain.LogDTO;
 import com.solvd.domain.ResponseDTO;
 import com.solvd.domain.TestExcecutionFinishDTO;
 import com.solvd.domain.TestExecutionStartDTO;
@@ -20,10 +21,12 @@ import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.FileUtils;
 import com.solvd.utils.RequestUpdate;
 import com.solvd.utils.ResponseUtils;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import java.util.Queue;
 
 public class ZebrunnerAPI extends BaseClass {
 
@@ -31,7 +34,11 @@ public class ZebrunnerAPI extends BaseClass {
 	private final ResponseDTO DATA = new ResponseDTO();
 	private static ZebrunnerAPI INSTANCE;
 
-	private ZebrunnerAPI() throws AgentFileNotFound {
+    public ResponseDTO getDATA() {
+        return DATA;
+    }
+
+    private ZebrunnerAPI() throws AgentFileNotFound {
 		super();
 	}
 
@@ -123,8 +130,10 @@ public class ZebrunnerAPI extends BaseClass {
 				.concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION")).concat(DATA.getRunId())
 				.concat("/tests/").concat(DATA.getTestIdHeadless()).concat("?headless=true");
 
-		TestStartHeadlessDTO bodyObject = new TestStartHeadlessDTO(endpointData.get("name").getAsString(),
-				endpointData.get("className").getAsString(), endpointData.get("methodName").getAsString());
+        TestStartHeadlessDTO bodyObject = new TestStartHeadlessDTO(
+                endpointData.get("name").getAsString(),
+                endpointData.get("className").getAsString(),
+                endpointData.get("methodName").getAsString());
 
 		String bodyJson = gson.toJson(bodyObject);
 
@@ -290,5 +299,30 @@ public class ZebrunnerAPI extends BaseClass {
 			LOGGER.error(e.getMessage());
 		}
 	}
+
+    public void sendLogs(Queue<LogDTO> endpointData) {
+        String endpointLogs = endpoint
+                .concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
+                .concat(DATA.getRunId())
+                .concat("/logs");
+
+        String bodyJson = gson.toJson(endpointData);
+
+        RequestBody body = RequestBody.create(JSON, bodyJson);
+
+        Request request = new Request.Builder().url(endpointLogs)
+                .post(body)
+                .addHeader("Authorization", "Bearer " + DATA.getAccessToken())
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+
+            response.body().close();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+
+    }
 
 }
