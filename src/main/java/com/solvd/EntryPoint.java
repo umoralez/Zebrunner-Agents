@@ -4,9 +4,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.DateFormatter;
+
 import com.solvd.utils.Screenshot;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 
 public class EntryPoint {
 
@@ -30,15 +32,15 @@ public class EntryPoint {
 
 		API.testExecutionStart(endpointTSE);
 
-		Screenshot screenshot = new Screenshot();
-		screenshot.takeScreenshot();
-		API.testScreenshotCollectionRequest(screenshot.getContent(), screenshot.getTimeData());
+//		Screenshot screenshot = new Screenshot();
+//		screenshot.takeScreenshot();
+//		API.testScreenshotCollectionRequest(screenshot.getContent(), screenshot.getTimeData());
 
 		JsonObject testRunLabels = new JsonObject();
 		JsonArray labelsArray = new JsonArray();
 		// Mock label 1
 		JsonObject label1 = new JsonObject();
-		label1.addProperty("Features", "lo que sea");
+		label1.addProperty("Features", "Test with screenshot");
 		labelsArray.add(label1);
 		// Mock label 2
 		JsonObject label2 = new JsonObject();
