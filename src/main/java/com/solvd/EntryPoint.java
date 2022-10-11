@@ -1,9 +1,5 @@
 package com.solvd;
 
-import java.sql.Timestamp;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 import com.google.gson.JsonObject;
 
 public class EntryPoint {
@@ -32,15 +28,6 @@ public class EntryPoint {
         endpointTSEH.addProperty("methodName", "methodName()");
 
         API.testExecutionStartHeadless(endpointTSEH);
-
-        //Log
-        Queue<JsonObject> logBatch = new ConcurrentLinkedQueue<JsonObject>();
-        JsonObject log1 = new JsonObject();
-        log1.addProperty("message", "log1");
-        log1.addProperty("level", "INFO");
-        log1.addProperty("timestamp", new Timestamp(System.currentTimeMillis()).getTime());
-        logBatch.add(log1);
-        API.sendlogs(logBatch);
 
         JsonObject testEFDH = new JsonObject();
         testEFDH.addProperty("result", "PASSED");

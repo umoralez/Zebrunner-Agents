@@ -12,7 +12,6 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.solvd.utils.FileUtils.removeInitialSpaces;
 
@@ -23,6 +22,9 @@ public class ZebrunnerAPI extends BaseClass {
     private final ResponseDTO DATA = new ResponseDTO();
     private static ZebrunnerAPI INSTANCE;
 
+    public ResponseDTO getDATA() {
+        return DATA;
+    }
     private ZebrunnerAPI() {
     }
 
@@ -245,27 +247,14 @@ public class ZebrunnerAPI extends BaseClass {
         }
     }
 
-    public void sendlogs(Queue<JsonObject> endpointData){
+    public void sendLogs(Queue<LogDTO> endpointData){
         String endpointLogs = endpoint
                 .concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
                 .concat(DATA.getRunId())
                 .concat("/logs");
-
-        Queue<LogDTO> logBatch = new ConcurrentLinkedQueue<LogDTO>();
         
-        for (JsonObject jsonObject : endpointData) {
-            LogDTO log = new LogDTO(
-                DATA.getTestIdHeadless(),
-                jsonObject.get("message").getAsString(),
-                jsonObject.get("level").getAsString(),
-                jsonObject.get("timestamp").getAsLong()      
-            );
-            logBatch.add(log);
-        }
-
-        String bodyJson = gson.toJson(logBatch);
-        LOGGER.info(bodyJson);
-        LOGGER.info(endpointLogs);
+        String bodyJson = gson.toJson(endpointData);
+        
         RequestBody body = RequestBody.create(JSON, bodyJson);
 
         Request request = new Request.Builder().url(endpointLogs)

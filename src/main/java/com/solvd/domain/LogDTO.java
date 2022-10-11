@@ -8,8 +8,7 @@ public class LogDTO {
     private long timestamp;
 
     public LogDTO() {}
-    public LogDTO(String testId, String message, String level, long timestamp) {
-        this.testId = testId;
+    public LogDTO(String message, String level, long timestamp) {
         this.message = message;
         this.level = level;
         this.timestamp = timestamp;
