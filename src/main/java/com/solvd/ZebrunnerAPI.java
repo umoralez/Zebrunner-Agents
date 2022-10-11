@@ -1,5 +1,6 @@
 package com.solvd;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.solvd.domain.*;
 import com.solvd.utils.AgentFileNotFound;
@@ -192,7 +193,6 @@ public class ZebrunnerAPI extends BaseClass {
      * @param headless specify the test's type (normal or headless)
      */
     public void testExecutionFinishRequest(JsonObject endpointData, Boolean headless) {
-
         String endpointTestExecutionFinishRun = endpoint
                 .concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
                 .concat(DATA.getRunId())

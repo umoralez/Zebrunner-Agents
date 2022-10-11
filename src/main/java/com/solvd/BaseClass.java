@@ -45,5 +45,4 @@ public abstract class BaseClass {
             throw new RuntimeException(e);
         }
     }
-
 }

@@ -1,6 +1,13 @@
 package com.solvd.domain;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.solvd.utils.DateFormatter;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class TestExecutionStartDTO {
 
@@ -8,6 +15,7 @@ public class TestExecutionStartDTO {
     String name;
     String methodName;
     String startedAt;
+    JsonElement labels;
 
     public TestExecutionStartDTO(String name, String className, String methodName) {
         this.name = name;
@@ -46,5 +54,13 @@ public class TestExecutionStartDTO {
 
     public void setStartedAt(String startedAt) {
         this.startedAt = startedAt;
+    }
+
+    public JsonElement getLabels() {
+        return labels;
+    }
+
+    public void setLabels(JsonElement labels) {
+        this.labels = labels;
     }
 }

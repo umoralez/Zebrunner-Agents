@@ -2,7 +2,6 @@ package com.solvd;
 
 import com.google.gson.JsonObject;
 import com.solvd.utils.AgentFileNotFound;
-import com.solvd.utils.DateFormatter;
 
 public class EntryPoint {
     public static void main(String[] args) throws AgentFileNotFound {
@@ -45,17 +44,22 @@ public class EntryPoint {
         API.testExecutionFinishRequest(testEFDH, true);
         //endregion
 
+        //region Test execution start
         JsonObject endpointTSE = new JsonObject();
         endpointTSE.addProperty("name", "Test l2");
         endpointTSE.addProperty("className", "com.name.class");
 
         endpointTSE.addProperty("methodName", "methodName()");
-        API.testExecutionStart(endpointTSE);
 
+        API.testExecutionStart(endpointTSE);
+        //endregion
+
+        //region TestExecutionFinishRequest
         JsonObject testEFD = new JsonObject();
-        testEFD.addProperty("result", "FAILED");
+        testEFD.addProperty("result", "PASSED");
 
         API.testExecutionFinishRequest(testEFD, false);
+        //endregion
 
         API.testRunFinishRequest();
     }
