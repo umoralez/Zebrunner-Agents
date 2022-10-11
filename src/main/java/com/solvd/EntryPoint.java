@@ -35,7 +35,7 @@ public class EntryPoint {
 		JsonArray labelsArray = new JsonArray();
 		// Mock label 1
 		JsonObject label1 = new JsonObject();
-		label1.addProperty("Features", "lo que sea");
+		label1.addProperty("Features", "Test with screenshot");
 		labelsArray.add(label1);
 		// Mock label 2
 		JsonObject label2 = new JsonObject();
