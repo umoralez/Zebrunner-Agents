@@ -31,6 +31,7 @@ public class EntryPoint {
 		endpointTSE.addProperty("methodName", "methodName()");
 
 		API.testExecutionStart(endpointTSE);
+		LOGGER.info("test start");
 
 		Screenshot screenshot = new Screenshot();
 		screenshot.takeScreenshot();
@@ -64,8 +65,6 @@ public class EntryPoint {
 		// region TestExecutionFinishRequest
 		JsonObject testEFD = new JsonObject();
 		testEFD.addProperty("result", "PASSED");
-
-		LOGGER.info("test start");
 
 		API.testExecutionFinishRequest(testEFD, false);
 
