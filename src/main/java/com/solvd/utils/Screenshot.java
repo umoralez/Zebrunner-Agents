@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Instant;
 
 import javax.imageio.ImageIO;
 
@@ -21,7 +22,7 @@ public class Screenshot {
 
 	public void takeScreenshot() {
 		Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-		String timeString = DateFormatter.getCurrentTime();
+		String timeString = Long.toString(Instant.now().toEpochMilli());
 
 		File imageFile = new File("./target/screenshot" + timeString + ".png");
 		try {
@@ -33,6 +34,7 @@ public class Screenshot {
 		} catch (Exception e) {
 
 			LOGGER.error(e.getMessage());
+			LOGGER.error(e.getStackTrace());
 		}
 
 	}

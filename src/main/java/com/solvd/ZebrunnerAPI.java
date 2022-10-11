@@ -15,7 +15,6 @@ import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.FileUtils;
 import com.solvd.utils.RequestUpdate;
 import com.solvd.utils.ResponseUtils;
-import com.solvd.utils.Screenshot;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -228,9 +227,8 @@ public class ZebrunnerAPI extends BaseClass {
 		return INSTANCE;
 	}
 
-	public void testScreenshotCollectionRequest(Screenshot screenshot) {
+	public void testScreenshotCollectionRequest(byte[] content, String timeData) {
 
-		byte[] content = screenshot.getContent();
 		String endpointScreenshotCollection = endpoint
 				.concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION")).concat(DATA.getRunId())
 				.concat("/tests/").concat(DATA.getTestId()).concat("/screenshots");
@@ -239,8 +237,18 @@ public class ZebrunnerAPI extends BaseClass {
 
 		RequestBody body = RequestBody.create(MEDIA_TYPE_HTTP, content);
 
-		Request request = new Request.Builder().url(endpointScreenshotCollection).post(body)
-				.addHeader("Authorization", "Bearer " + DATA.getAccessToken()).build();
+		Request request = null;
+
+		if (timeData.isBlank()) {
+			request = new Request.Builder().url(endpointScreenshotCollection).post(body)
+					.addHeader("Authorization", "Bearer " + DATA.getAccessToken()).build();
+		}
+
+		else {
+			request = new Request.Builder().url(endpointScreenshotCollection).post(body)
+					.addHeader("Authorization", "Bearer " + DATA.getAccessToken())
+					.addHeader("x-zbr-screenshot-captured-at", timeData).build();
+		}
 
 		try {
 

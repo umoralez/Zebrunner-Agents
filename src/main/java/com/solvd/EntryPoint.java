@@ -28,7 +28,7 @@ public class EntryPoint {
 
 		Screenshot screenshot = new Screenshot();
 		screenshot.takeScreenshot();
-		API.testScreenshotCollectionRequest(screenshot);
+		API.testScreenshotCollectionRequest(screenshot.getContent(), screenshot.getTimeData());
 
 		JsonObject testExecutionFinishedData = new JsonObject();
 		testExecutionFinishedData.addProperty("result", "PASSED");

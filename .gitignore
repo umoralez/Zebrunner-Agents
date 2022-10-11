@@ -19,3 +19,4 @@ buildNumber.properties
 .idea/
 .DS_Store
 
+.settings
