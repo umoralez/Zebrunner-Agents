@@ -13,9 +13,8 @@ import com.google.gson.Gson;
 import com.solvd.domain.AgentDTO;
 import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.FileUtils;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
 
 public abstract class BaseClass {
 

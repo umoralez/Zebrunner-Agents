@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.DateFormatter;
-import com.solvd.utils.Screenshot;
 
 public class EntryPoint {
 
@@ -27,9 +26,9 @@ public class EntryPoint {
 
 		API.testExecutionStart(endpointTSE);
 
-		Screenshot screenshot = new Screenshot();
-		screenshot.takeScreenshot();
-		API.testScreenshotCollectionRequest(screenshot.getContent(), screenshot.getTimeData());
+//		Screenshot screenshot = new Screenshot();
+//		screenshot.takeScreenshot();
+//		API.testScreenshotCollectionRequest(screenshot.getContent(), screenshot.getTimeData());
 
 		JsonObject testRunLabels = new JsonObject();
 		JsonArray labelsArray = new JsonArray();
