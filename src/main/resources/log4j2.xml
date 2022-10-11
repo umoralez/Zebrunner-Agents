@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <properties>
+        <property name="pattern">[%d{HH:mm:ss}] %-5p (%F:%L) - %m%n</property>
+    </properties>
+
+    <appenders>
+        <Console name="logToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </appenders>
+
+    <loggers>
+        <!--    Additivity in false doesn't allow to repetitive logs-->
+        <Logger name="com.solvd" level="debug" additivity="false">
+            <AppenderRef ref="logToConsole"/>
+        </Logger>
+        <root level="debug" additivity="false">
+            <appender-ref ref="logToConsole"/>
+        </root>
+    </loggers>
+</configuration>
