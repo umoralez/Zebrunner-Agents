@@ -1,5 +1,9 @@
 package com.solvd;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.DateFormatter;
@@ -10,6 +14,8 @@ public class EntryPoint {
 	public static void main(String[] args) throws AgentFileNotFound {
 
 		final ZebrunnerAPI API = ZebrunnerAPI.getInstance();
+
+		final Logger LOGGER = LogManager.getLogger();
 
 		API.tokenGeneration();
 
@@ -30,6 +36,21 @@ public class EntryPoint {
 		screenshot.takeScreenshot();
 		API.testScreenshotCollectionRequest(screenshot.getContent(), screenshot.getTimeData());
 
+		JsonObject testRunLabels = new JsonObject();
+		JsonArray labelsArray = new JsonArray();
+		// Mock label 1
+		JsonObject label1 = new JsonObject();
+		label1.addProperty("Features", "Test with screenshot");
+		labelsArray.add(label1);
+		// Mock label 2
+		JsonObject label2 = new JsonObject();
+		label2.addProperty("Group", "Regression");
+		labelsArray.add(label2);
+		testRunLabels.add("items", labelsArray);
+		// Api call
+		API.testExecutionLabelRequest(testRunLabels);
+		// endregion Labels Execution Request
+
 		JsonObject testExecutionFinishedData = new JsonObject();
 		testExecutionFinishedData.addProperty("result", "PASSED");
 		testExecutionFinishedData.addProperty("endedAt", DateFormatter.getCurrentTime());
@@ -44,7 +65,10 @@ public class EntryPoint {
 		JsonObject testEFD = new JsonObject();
 		testEFD.addProperty("result", "PASSED");
 
+		LOGGER.info("test start");
+
 		API.testExecutionFinishRequest(testEFD, false);
+
 		// endregion
 
 		API.testRunFinishRequest();
