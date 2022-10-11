@@ -18,8 +18,7 @@ public class EntryPoint {
 
         API.testStartRequest(testDataStart);
 
-
-        //region HEADLESS REQUESTS
+        // region HEADLESS REQUESTS
         JsonObject endpointTSH = new JsonObject();
         endpointTSH.addProperty("name", "Test headless");
 
@@ -31,13 +30,13 @@ public class EntryPoint {
         endpointTSEH.addProperty("methodName", "methodName()");
 
         API.testExecutionStartHeadless(endpointTSEH);
-        
+
         JsonObject testEFDH = new JsonObject();
         testEFDH.addProperty("result", "PASSED");
 
         API.testExecutionFinishRequest(testEFDH, true);
-        
-        //endregion
+
+        // endregion
 
         JsonObject endpointTSE = new JsonObject();
         endpointTSE.addProperty("name", "Test l2");
@@ -45,7 +44,7 @@ public class EntryPoint {
 
         endpointTSE.addProperty("methodName", "methodName()");
         API.testExecutionStart(endpointTSE);
-        
+
         LOGGER.info("test start");
 
         JsonObject testEFD = new JsonObject();

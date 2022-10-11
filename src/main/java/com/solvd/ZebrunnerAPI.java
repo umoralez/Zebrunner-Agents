@@ -9,12 +9,10 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
-
 import java.io.IOException;
 import java.util.Queue;
 
 import static com.solvd.utils.FileUtils.removeInitialSpaces;
-
 
 public class ZebrunnerAPI extends BaseClass {
 
@@ -25,13 +23,15 @@ public class ZebrunnerAPI extends BaseClass {
     public ResponseDTO getDATA() {
         return DATA;
     }
+
     private ZebrunnerAPI() {
     }
 
     public void tokenGeneration() {
         String token = FileUtils.propertyValue("access-token").get("access-token");
         TokenGenerationDTO bodyObject = new TokenGenerationDTO(token);
-        String tokenGenerationEndpoint = endpoint.concat(FileUtils.readValueInProperties(endpointPath, "ENP_TOKEN_GENERATE"));
+        String tokenGenerationEndpoint = endpoint
+                .concat(FileUtils.readValueInProperties(endpointPath, "ENP_TOKEN_GENERATE"));
 
         String bodyJson = gson.toJson(bodyObject);
 
@@ -93,8 +93,7 @@ public class ZebrunnerAPI extends BaseClass {
                 .concat("/tests?headless=true");
 
         TestExecutionStartHeadlessDTO bodyObject = new TestExecutionStartHeadlessDTO(
-                endpointData.get("name").getAsString()
-        );
+                endpointData.get("name").getAsString());
 
         String bodyJson = gson.toJson(bodyObject);
 
@@ -130,8 +129,7 @@ public class ZebrunnerAPI extends BaseClass {
         TestStartHeadlessDTO bodyObject = new TestStartHeadlessDTO(
                 endpointData.get("name").getAsString(),
                 endpointData.get("className").getAsString(),
-                endpointData.get("methodName").getAsString()
-        );
+                endpointData.get("methodName").getAsString());
 
         String bodyJson = gson.toJson(bodyObject);
 
@@ -150,6 +148,7 @@ public class ZebrunnerAPI extends BaseClass {
             LOGGER.error(e.getMessage());
         }
     }
+
     public void testExecutionStart(JsonObject endpointData) {
 
         String endpointTestExecutionStart = endpoint
@@ -187,7 +186,7 @@ public class ZebrunnerAPI extends BaseClass {
     /**
      *
      * @param endpointData
-     * @param headless specify the test's type (normal or headless)
+     * @param headless     specify the test's type (normal or headless)
      */
     public void testExecutionFinishRequest(JsonObject endpointData, Boolean headless) {
 
@@ -247,14 +246,14 @@ public class ZebrunnerAPI extends BaseClass {
         }
     }
 
-    public void sendLogs(Queue<LogDTO> endpointData){
+    public void sendLogs(Queue<LogDTO> endpointData) {
         String endpointLogs = endpoint
                 .concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
                 .concat(DATA.getRunId())
                 .concat("/logs");
-        
+
         String bodyJson = gson.toJson(endpointData);
-        
+
         RequestBody body = RequestBody.create(JSON, bodyJson);
 
         Request request = new Request.Builder().url(endpointLogs)
@@ -269,7 +268,7 @@ public class ZebrunnerAPI extends BaseClass {
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
-        
+
     }
 
     public static ZebrunnerAPI getInstance() {

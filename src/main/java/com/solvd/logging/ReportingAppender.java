@@ -18,29 +18,25 @@ import com.solvd.domain.LogDTO;
 import java.io.Serializable;
 import java.util.function.Function;
 
-@Plugin(
-    name = "ReportingAppender",
-    category = Core.CATEGORY_NAME,
-    elementType = Appender.ELEMENT_TYPE
-)
+@Plugin(name = "ReportingAppender", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE)
 public final class ReportingAppender extends AbstractAppender {
 
     private static final Function<LogEvent, LogDTO> CONVERTER = e -> new LogDTO(e.getMessage().getFormattedMessage(),
-                                                                                e.getLevel().toString(),
-                                                                                e.getTimeMillis());
+            e.getLevel().toString(),
+            e.getTimeMillis());
     private static volatile LogsBuffer logsBuffer;
 
     protected ReportingAppender(String name,
-                                Filter filter,
-                                Layout<? extends Serializable> layout,
-                                boolean ignoreExceptions) {
+            Filter filter,
+            Layout<? extends Serializable> layout,
+            boolean ignoreExceptions) {
         super(name, filter, layout, ignoreExceptions, Property.EMPTY_ARRAY);
     }
 
     @PluginFactory
     public static ReportingAppender create(@PluginAttribute("name") String name,
-                                           @PluginElement("Layout") Layout<? extends Serializable> layout,
-                                           @PluginElement("Filter") Filter filter) {
+            @PluginElement("Layout") Layout<? extends Serializable> layout,
+            @PluginElement("Filter") Filter filter) {
 
         if (name == null) {
             LOGGER.error("No name provided for TestLoggerAppender");

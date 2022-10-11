@@ -16,12 +16,12 @@ import com.solvd.ZebrunnerAPI;
 import com.solvd.domain.LogDTO;
 
 public class LogsBuffer {
-    
+
     private static final Logger LOGGER = LogManager.getLogger(LogsBuffer.class);
     private static final ScheduledExecutorService FLUSH_EXECUTOR = Executors.newScheduledThreadPool(4);
     private static final ZebrunnerAPI API = ZebrunnerAPI.getInstance();
     private static final AtomicBoolean EXECUTOR_ENABLED = new AtomicBoolean();
-    
+
     private static volatile Queue<LogDTO> QUEUE = new ConcurrentLinkedQueue<>();
     private final Function<LogEvent, LogDTO> converter;
 
