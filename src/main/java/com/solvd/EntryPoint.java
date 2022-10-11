@@ -1,5 +1,6 @@
 package com.solvd;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.DateFormatter;
@@ -29,6 +30,21 @@ public class EntryPoint {
 		Screenshot screenshot = new Screenshot();
 		screenshot.takeScreenshot();
 		API.testScreenshotCollectionRequest(screenshot.getContent(), screenshot.getTimeData());
+
+		JsonObject testRunLabels = new JsonObject();
+		JsonArray labelsArray = new JsonArray();
+		// Mock label 1
+		JsonObject label1 = new JsonObject();
+		label1.addProperty("Features", "lo que sea");
+		labelsArray.add(label1);
+		// Mock label 2
+		JsonObject label2 = new JsonObject();
+		label2.addProperty("Group", "Regression");
+		labelsArray.add(label2);
+		testRunLabels.add("items", labelsArray);
+		// Api call
+		API.testExecutionLabelRequest(testRunLabels);
+		// endregion Labels Execution Request
 
 		JsonObject testExecutionFinishedData = new JsonObject();
 		testExecutionFinishedData.addProperty("result", "PASSED");
