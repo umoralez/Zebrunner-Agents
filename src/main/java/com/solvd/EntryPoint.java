@@ -13,6 +13,7 @@ public class EntryPoint {
 	public static void main(String[] args) throws AgentFileNotFound {
 
 		final ZebrunnerAPI API = ZebrunnerAPI.getInstance();
+
 		final Logger LOGGER = LogManager.getLogger();
 
 		API.tokenGeneration();
@@ -65,6 +66,7 @@ public class EntryPoint {
 
 		LOGGER.info("test start");
 		API.testExecutionFinishRequest(testEFD, false);
+
 		// endregion
 
 		API.testRunFinishRequest();
