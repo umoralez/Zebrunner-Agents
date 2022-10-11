@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.solvd.domain.AgentDTO;
 import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.FileUtils;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

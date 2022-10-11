@@ -14,6 +14,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import com.solvd.domain.LogDTO;
+import com.solvd.utils.AgentFileNotFound;
 
 import java.io.Serializable;
 import java.util.function.Function;
@@ -59,7 +60,11 @@ public final class ReportingAppender extends AbstractAppender {
         if (logsBuffer == null) {
             synchronized (ReportingAppender.class) {
                 if (logsBuffer == null) {
-                    logsBuffer = new LogsBuffer(CONVERTER);
+                    try {
+                        logsBuffer = new LogsBuffer(CONVERTER);
+                    } catch (AgentFileNotFound e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

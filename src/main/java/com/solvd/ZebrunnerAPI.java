@@ -7,6 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.solvd.domain.LabelItemDTO;
+import com.solvd.domain.LogDTO;
 import com.solvd.domain.ResponseDTO;
 import com.solvd.domain.TestExcecutionFinishDTO;
 import com.solvd.domain.TestExecutionStartDTO;
@@ -20,15 +21,12 @@ import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.FileUtils;
 import com.solvd.utils.RequestUpdate;
 import com.solvd.utils.ResponseUtils;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-import java.io.IOException;
 import java.util.Queue;
-
-import static com.solvd.utils.FileUtils.removeInitialSpaces;
 
 public class ZebrunnerAPI extends BaseClass {
 
@@ -327,10 +325,4 @@ public class ZebrunnerAPI extends BaseClass {
 
     }
 
-    public static ZebrunnerAPI getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ZebrunnerAPI();
-        }
-        return INSTANCE;
-    }
 }
