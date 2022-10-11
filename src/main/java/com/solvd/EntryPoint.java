@@ -1,12 +1,15 @@
 package com.solvd;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.gson.JsonObject;
 
 public class EntryPoint {
     public static void main(String[] args) {
 
         final ZebrunnerAPI API = ZebrunnerAPI.getInstance();
-
+        final Logger LOGGER = LogManager.getLogger();
         API.tokenGeneration();
 
         JsonObject testDataStart = new JsonObject();
@@ -28,7 +31,7 @@ public class EntryPoint {
         endpointTSEH.addProperty("methodName", "methodName()");
 
         API.testExecutionStartHeadless(endpointTSEH);
-
+        
         JsonObject testEFDH = new JsonObject();
         testEFDH.addProperty("result", "PASSED");
 
@@ -42,6 +45,8 @@ public class EntryPoint {
 
         endpointTSE.addProperty("methodName", "methodName()");
         API.testExecutionStart(endpointTSE);
+        
+        LOGGER.info("test start");
 
         JsonObject testEFD = new JsonObject();
         testEFD.addProperty("result", "FAILED");

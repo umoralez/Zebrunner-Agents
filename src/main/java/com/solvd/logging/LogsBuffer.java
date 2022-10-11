@@ -19,7 +19,7 @@ public class LogsBuffer {
     
     private static final Logger LOGGER = LogManager.getLogger(LogsBuffer.class);
     private static final ScheduledExecutorService FLUSH_EXECUTOR = Executors.newScheduledThreadPool(4);
-    private static final ZebrunnerAPI API_CLIENT = ZebrunnerAPI.getInstance();
+    private static final ZebrunnerAPI API = ZebrunnerAPI.getInstance();
     private static final AtomicBoolean EXECUTOR_ENABLED = new AtomicBoolean();
     
     private static volatile Queue<LogDTO> QUEUE = new ConcurrentLinkedQueue<>();
@@ -31,10 +31,8 @@ public class LogsBuffer {
     }
 
     public void put(LogEvent event) {
-
         LogDTO log = converter.apply(event);
-        log.setTestId(API_CLIENT.getDATA().getTestId());
-
+        log.setTestId(API.getDATA().getTestId());
         QUEUE.add(log);
 
         if (EXECUTOR_ENABLED.compareAndSet(false, true)) {
@@ -50,7 +48,7 @@ public class LogsBuffer {
         if (!QUEUE.isEmpty()) {
             Queue<LogDTO> logsBatch = QUEUE;
             QUEUE = new ConcurrentLinkedQueue<>();
-            API_CLIENT.sendLogs(logsBatch);
+            API.sendLogs(logsBatch);
         }
     }
 

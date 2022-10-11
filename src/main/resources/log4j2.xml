@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration packages="com.solvd.logging">
-   <properties>
-      <property name="pattern">[%d{HH:mm:ss}] %-5p (%F:%L) - %m%n</property>
-   </properties>
-   <appenders>
-      <ReportingAppender name="ReportingAppender">
-         <PatternLayout pattern="${pattern}" />
-      </ReportingAppender>
-   </appenders>
-   <loggers>
-      <root level="info">
-         <appender-ref ref="ReportingAppender"/>
-      </root>
-   </loggers>
+    <properties>
+        <property name="pattern">[%d{HH:mm:ss}] %-5p (%F:%L) - %m%n</property>
+    </properties>
+    <appenders>
+        <ReportingAppender name="ReportingAppender">
+            <PatternLayout pattern="${pattern}" />
+        </ReportingAppender>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${pattern}" />
+        </Console>
+    </appenders>
+    <loggers>
+        <root level="info">
+            <Appender-ref ref="ReportingAppender"/>
+            <AppenderRef ref="console" />
+        </root>
+    </loggers>
 </configuration>
