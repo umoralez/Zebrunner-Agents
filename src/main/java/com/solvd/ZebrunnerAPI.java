@@ -2,11 +2,13 @@ package com.solvd;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Queue;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.solvd.domain.LabelItemDTO;
+import com.solvd.domain.LogDTO;
 import com.solvd.domain.ResponseDTO;
 import com.solvd.domain.TestExcecutionFinishDTO;
 import com.solvd.domain.TestExecutionStartDTO;
@@ -30,6 +32,10 @@ public class ZebrunnerAPI extends BaseClass {
 	private final String endpoint = properties.getProperty("URL");
 	private final ResponseDTO DATA = new ResponseDTO();
 	private static ZebrunnerAPI INSTANCE;
+
+	public ResponseDTO getDATA() {
+		return DATA;
+	}
 
 	private ZebrunnerAPI() throws AgentFileNotFound {
 		super();
@@ -289,6 +295,27 @@ public class ZebrunnerAPI extends BaseClass {
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
 		}
+	}
+
+	public void sendLogs(Queue<LogDTO> endpointData) {
+		String endpointLogs = endpoint.concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
+				.concat(DATA.getRunId()).concat("/logs");
+
+		String bodyJson = gson.toJson(endpointData);
+
+		RequestBody body = RequestBody.create(JSON, bodyJson);
+
+		Request request = new Request.Builder().url(endpointLogs).post(body)
+				.addHeader("Authorization", "Bearer " + DATA.getAccessToken()).build();
+
+		try {
+			Response response = client.newCall(request).execute();
+
+			response.body().close();
+		} catch (IOException e) {
+			LOGGER.error(e.getMessage());
+		}
+
 	}
 
 }
