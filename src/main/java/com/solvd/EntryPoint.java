@@ -2,65 +2,52 @@ package com.solvd;
 
 import com.google.gson.JsonObject;
 import com.solvd.utils.AgentFileNotFound;
+import com.solvd.utils.DateFormatter;
+import com.solvd.utils.Screenshot;
 
 public class EntryPoint {
-    public static void main(String[] args) throws AgentFileNotFound {
 
-        ZebrunnerAPI API = ZebrunnerAPI.getInstance();
+	public static void main(String[] args) throws AgentFileNotFound {
 
-        try {
-            API.tokenGeneration();
-        } catch (AgentFileNotFound e) {
-            System.out.println(e.getMessage());
-        }
+		final ZebrunnerAPI API = ZebrunnerAPI.getInstance();
 
-        JsonObject testDataStart = new JsonObject();
-        testDataStart.addProperty("name", "Headless");
-        testDataStart.addProperty("framework", "testng");
+		API.tokenGeneration();
 
-        try {
-            API.testStartRequest(testDataStart);
-        } catch (AgentFileNotFound e) {
-            System.out.println(e.getMessage());
-        }
+		JsonObject testDataStart = new JsonObject();
+		testDataStart.addProperty("name", "Test name l2");
+		testDataStart.addProperty("framework", "testng");
 
+		API.testStartRequest(testDataStart);
 
-        //region HEADLESS REQUESTS
-        JsonObject endpointTSH = new JsonObject();
-        endpointTSH.addProperty("name", "Test headless");
+		JsonObject endpointTSE = new JsonObject();
+		endpointTSE.addProperty("name", "Test name l1");
+		endpointTSE.addProperty("className", "com.name.class");
+		endpointTSE.addProperty("methodName", "methodName()");
 
-        API.testStartRequestHeadless(endpointTSH);
+		API.testExecutionStart(endpointTSE);
 
-        JsonObject endpointTSEH = new JsonObject();
-        endpointTSEH.addProperty("name", "Test headless");
-        endpointTSEH.addProperty("className", "com.name.class");
-        endpointTSEH.addProperty("methodName", "methodName()");
+		Screenshot screenshot = new Screenshot();
+		screenshot.takeScreenshot();
+		API.testScreenshotCollectionRequest(screenshot.getContent(), screenshot.getTimeData());
 
-        API.testExecutionStartHeadless(endpointTSEH);
+		JsonObject testExecutionFinishedData = new JsonObject();
+		testExecutionFinishedData.addProperty("result", "PASSED");
+		testExecutionFinishedData.addProperty("endedAt", DateFormatter.getCurrentTime());
 
-        JsonObject testEFDH = new JsonObject();
-        testEFDH.addProperty("result", "PASSED");
+		API.testExecutionFinishRequest(testExecutionFinishedData, false);
 
-        API.testExecutionFinishRequest(testEFDH, true);
-        //endregion
+		JsonObject testRunFinishData = new JsonObject();
+		testRunFinishData.addProperty("endedAt", DateFormatter.getCurrentTime());
+		API.testRunFinishRequest();
 
-        //region Test execution start
-        JsonObject endpointTSE = new JsonObject();
-        endpointTSE.addProperty("name", "Test l2");
-        endpointTSE.addProperty("className", "com.name.class");
+		// region TestExecutionFinishRequest
+		JsonObject testEFD = new JsonObject();
+		testEFD.addProperty("result", "PASSED");
 
-        endpointTSE.addProperty("methodName", "methodName()");
+		API.testExecutionFinishRequest(testEFD, false);
+		// endregion
 
-        API.testExecutionStart(endpointTSE);
-        //endregion
+		API.testRunFinishRequest();
+	}
 
-        //region TestExecutionFinishRequest
-        JsonObject testEFD = new JsonObject();
-        testEFD.addProperty("result", "PASSED");
-
-        API.testExecutionFinishRequest(testEFD, false);
-        //endregion
-
-        API.testRunFinishRequest();
-    }
 }
