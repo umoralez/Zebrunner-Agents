@@ -25,13 +25,22 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import java.io.IOException;
+import java.util.Queue;
+
+import static com.solvd.utils.FileUtils.removeInitialSpaces;
+
 public class ZebrunnerAPI extends BaseClass {
 
 	private final String endpoint = properties.getProperty("URL");
 	private final ResponseDTO DATA = new ResponseDTO();
 	private static ZebrunnerAPI INSTANCE;
 
-	private ZebrunnerAPI() throws AgentFileNotFound {
+    public ResponseDTO getDATA() {
+        return DATA;
+    }
+
+    private ZebrunnerAPI() throws AgentFileNotFound {
 		super();
 	}
 
@@ -123,8 +132,10 @@ public class ZebrunnerAPI extends BaseClass {
 				.concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION")).concat(DATA.getRunId())
 				.concat("/tests/").concat(DATA.getTestIdHeadless()).concat("?headless=true");
 
-		TestStartHeadlessDTO bodyObject = new TestStartHeadlessDTO(endpointData.get("name").getAsString(),
-				endpointData.get("className").getAsString(), endpointData.get("methodName").getAsString());
+        TestStartHeadlessDTO bodyObject = new TestStartHeadlessDTO(
+                endpointData.get("name").getAsString(),
+                endpointData.get("className").getAsString(),
+                endpointData.get("methodName").getAsString());
 
 		String bodyJson = gson.toJson(bodyObject);
 
@@ -291,4 +302,35 @@ public class ZebrunnerAPI extends BaseClass {
 		}
 	}
 
+    public void sendLogs(Queue<LogDTO> endpointData) {
+        String endpointLogs = endpoint
+                .concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
+                .concat(DATA.getRunId())
+                .concat("/logs");
+
+        String bodyJson = gson.toJson(endpointData);
+
+        RequestBody body = RequestBody.create(JSON, bodyJson);
+
+        Request request = new Request.Builder().url(endpointLogs)
+                .post(body)
+                .addHeader("Authorization", "Bearer " + DATA.getAccessToken())
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+
+            response.body().close();
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+
+    }
+
+    public static ZebrunnerAPI getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ZebrunnerAPI();
+        }
+        return INSTANCE;
+    }
 }

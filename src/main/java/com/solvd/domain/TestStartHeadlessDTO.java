@@ -1,7 +1,5 @@
 package com.solvd.domain;
 
-import com.solvd.utils.DateFormatter;
-
 public class TestStartHeadlessDTO {
 
     String className;

@@ -5,12 +5,15 @@ import com.google.gson.JsonObject;
 import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.DateFormatter;
 import com.solvd.utils.Screenshot;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EntryPoint {
 
 	public static void main(String[] args) throws AgentFileNotFound {
 
 		final ZebrunnerAPI API = ZebrunnerAPI.getInstance();
+        final Logger LOGGER = LogManager.getLogger();
 
 		API.tokenGeneration();
 
@@ -60,7 +63,8 @@ public class EntryPoint {
 		JsonObject testEFD = new JsonObject();
 		testEFD.addProperty("result", "PASSED");
 
-		API.testExecutionFinishRequest(testEFD, false);
+        LOGGER.info("test start");
+        API.testExecutionFinishRequest(testEFD, false);
 		// endregion
 
 		API.testRunFinishRequest();
