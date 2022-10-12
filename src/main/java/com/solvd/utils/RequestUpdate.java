@@ -32,12 +32,5 @@ public class RequestUpdate {
         return endpoint;
     }
 
-    public static String completeEndpoint(String endpointKey, String restOfEndpoint) {
-        File idPath = new File(System.getProperty("user.dir")
-                + "/src/main/resources/id.properties");
-
-        return addQueryParamsValue(endpointKey, FileUtils.readValueInProperties(idPath, "id")).concat(restOfEndpoint);
-    }
-
 
 }

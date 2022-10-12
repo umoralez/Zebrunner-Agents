@@ -12,6 +12,7 @@ import java.util.Optional;
 public class FileUtils {
     private static final Logger LOGGER = LogManager.getLogger(FileUtils.class);
 
+    //Creates a map with the keys and values in the agent file
     public static Map<String, String> propertyValue(String... keys) throws AgentFileNotFound {
         Map<String, String> properties = new HashMap<>();
         File agentFile = setAgentFile();
@@ -49,6 +50,7 @@ public class FileUtils {
         return word;
     }
 
+
     public static String readValueInProperties(File file, String target) {
         String value = "";
         try (Reader reader = new FileReader(file);
@@ -71,10 +73,11 @@ public class FileUtils {
         return value;
     }
 
+    //Search the agent file in resources
     private static File setAgentFile() throws AgentFileNotFound {
         String[] files = new File(System.getProperty("user.dir").concat("/src/main/resources")).list();
 
-        try {
+        if (files != null) {
             for (String file : files) {
                 if (file.equals("agent.yaml")) {
                     return new File(System.getProperty("user.dir").concat("/src/main/resources/agent.yaml"));
@@ -83,12 +86,10 @@ public class FileUtils {
                     return new File(System.getProperty("user.dir").concat("/src/main/resources/agent.properties"));
                 }
             }
-            throw new AgentFileNotFound("You have to provide agent.yaml or agent.properties file.");
-        } catch (NullPointerException e) {
-            throw new AgentFileNotFound("You have to provide agent.yaml or agent.properties file.");
         }
+        throw new AgentFileNotFound("You have to provide agent.yaml or agent.properties file.");
     }
-
+    //Fill the AgentDTO with the agent file's values
     public static AgentDTO setAgentDAO() throws AgentFileNotFound {
 
         File agentFile = setAgentFile();

@@ -4,9 +4,9 @@ public class ResponseDTO {
     private String accessToken;
     private String runId;
     private String testId;
-
     private String testIdHeadless;
 
+    //region Getters and setters
     public String getAccessToken() {
         return accessToken;
     }
@@ -38,4 +38,5 @@ public class ResponseDTO {
     public void setTestIdHeadless(String testIdHeadless) {
         this.testIdHeadless = testIdHeadless;
     }
+    //endregion
 }
