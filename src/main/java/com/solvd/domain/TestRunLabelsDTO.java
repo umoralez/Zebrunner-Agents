@@ -1,6 +1,7 @@
 package com.solvd.domain;
 
 
+
 import java.util.ArrayList;
 
 public class TestRunLabelsDTO {
@@ -17,4 +18,5 @@ public class TestRunLabelsDTO {
     public void setItems(ArrayList<LabelItemDTO> items) {
         this.items = items;
     }
+
 }

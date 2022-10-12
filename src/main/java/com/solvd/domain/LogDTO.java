@@ -38,4 +38,5 @@ public class LogDTO {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
+
 }

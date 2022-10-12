@@ -30,10 +30,26 @@ public class EntryPoint {
 		endpointTSE.addProperty("methodName", "methodName()");
 
 		API.testExecutionStart(endpointTSE);
+		LOGGER.info("test start");
 
 //		Screenshot screenshot = new Screenshot();
 //		screenshot.takeScreenshot();
 //		API.testScreenshotCollectionRequest(screenshot.getContent(), screenshot.getTimeData());
+
+		JsonObject testRunLabels = new JsonObject();
+		JsonArray labelsArray = new JsonArray();
+		// Mock label 1
+		JsonObject label1 = new JsonObject();
+		label1.addProperty("Features", "Test with screenshot");
+		labelsArray.add(label1);
+		// Mock label 2
+		JsonObject label2 = new JsonObject();
+		label2.addProperty("Group", "Regression");
+		labelsArray.add(label2);
+		testRunLabels.add("items", labelsArray);
+		// Api call
+		API.testExecutionLabelRequest(testRunLabels);
+		// endregion Labels Execution Request
 
 		JsonObject testRunLabels = new JsonObject();
 		JsonArray labelsArray = new JsonArray();
