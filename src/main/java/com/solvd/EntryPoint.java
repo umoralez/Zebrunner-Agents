@@ -7,7 +7,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.solvd.utils.AgentFileNotFound;
 import com.solvd.utils.DateFormatter;
-import com.solvd.utils.Screenshot;
 
 public class EntryPoint {
 
@@ -33,9 +32,24 @@ public class EntryPoint {
 		API.testExecutionStart(endpointTSE);
 		LOGGER.info("test start");
 
-		Screenshot screenshot = new Screenshot();
-		screenshot.takeScreenshot();
-		API.testScreenshotCollectionRequest(screenshot.getContent(), screenshot.getTimeData());
+//		Screenshot screenshot = new Screenshot();
+//		screenshot.takeScreenshot();
+//		API.testScreenshotCollectionRequest(screenshot.getContent(), screenshot.getTimeData());
+
+		JsonObject testRunLabels = new JsonObject();
+		JsonArray labelsArray = new JsonArray();
+		// Mock label 1
+		JsonObject label1 = new JsonObject();
+		label1.addProperty("Features", "Test with screenshot");
+		labelsArray.add(label1);
+		// Mock label 2
+		JsonObject label2 = new JsonObject();
+		label2.addProperty("Group", "Regression");
+		labelsArray.add(label2);
+		testRunLabels.add("items", labelsArray);
+		// Api call
+		API.testExecutionLabelRequest(testRunLabels);
+		// endregion Labels Execution Request
 
 		JsonObject testRunLabels = new JsonObject();
 		JsonArray labelsArray = new JsonArray();
@@ -66,6 +80,7 @@ public class EntryPoint {
 		JsonObject testEFD = new JsonObject();
 		testEFD.addProperty("result", "PASSED");
 
+		LOGGER.info("test start");
 		API.testExecutionFinishRequest(testEFD, false);
 
 		// endregion

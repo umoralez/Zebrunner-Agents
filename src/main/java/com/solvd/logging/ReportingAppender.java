@@ -1,5 +1,6 @@
 package com.solvd.logging;
 
+
 import java.io.Serializable;
 import java.util.function.Function;
 
@@ -18,6 +19,7 @@ import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import com.solvd.domain.LogDTO;
 import com.solvd.utils.AgentFileNotFound;
+
 
 @Plugin(name = "ReportingAppender", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE)
 public final class ReportingAppender extends AbstractAppender {
