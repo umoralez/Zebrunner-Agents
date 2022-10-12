@@ -12,11 +12,4 @@ public class ResponseUtils {
 		}
 		return token.replace("\"", "");
 	}
-
-	public static String cleanString(String responseJson) {
-		responseJson = responseJson.replace("\"", "");
-		responseJson = responseJson.replace("{", "");
-		responseJson = responseJson.replace("}", "");
-		return responseJson;
-	}
 }

@@ -237,22 +237,12 @@ public class ZebrunnerAPI extends BaseClass {
 
 	}
 
-	public void testExecutionLabelRequest(JsonObject labelItems) {
+	public void testExecutionLabelRequest(TestRunLabelsDTO labels) {
 		String endpointTestRunLabels = endpoint.concat(FileUtils.readValueInProperties(endpointPath, "ENP_EXECUTION"))
 				.concat(DATA.getRunId()).concat("/tests/").concat(DATA.getTestId()).concat("/labels");
 
-		JsonArray labelsArray = labelItems.get("items").getAsJsonArray();
-		ArrayList<LabelItemDTO> items = new ArrayList<>();
 
-		for (JsonElement labels : labelsArray) {
-			String cleaned = ResponseUtils.cleanString(labels.getAsJsonObject().toString());
-			String[] labelsAux = cleaned.split(":");
-
-			LabelItemDTO labelItem = new LabelItemDTO(labelsAux[0], labelsAux[1]);
-			items.add(labelItem);
-		}
-
-		RequestBody body = RequestBody.create(JSON, gson.toJson(new TestRunLabelsDTO(items)));
+		RequestBody body = RequestBody.create(JSON, gson.toJson(labels));
 
 		Request request = new Request.Builder().url(endpointTestRunLabels).put(body)
 				.addHeader("Authorization", "Bearer " + DATA.getAccessToken()).build();
