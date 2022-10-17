@@ -1,9 +1,10 @@
 {
   "name": "zebrunner-agents",
   "version": "1.0.0",
-  "description": "Agent for Zebrunner using Cypress",
+  "description": "Zebrunner Agent for Cypress",
   "main": "dist/index.js",
   "scripts": {
+    "eslint": "npx eslint src/",
     "start": "npx tsc && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,10 +25,22 @@
   "homepage": "https://github.com/umoralez/Zebrunner-Agents#readme",
   "devDependencies": {
     "@types/node": "^18.7.23",
+    "@typescript-eslint/eslint-plugin": "^5.40.1",
+    "@typescript-eslint/parser": "^5.40.1",
+    "eslint": "^8.25.0",
+    "mocha-junit-reporter": "^2.0.0",
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "axios": "^0.27.2",
-    "dotenv": "^16.0.3"
+    "axios": "^0.21.1",
+    "child_process": "^1.0.2",
+    "cypress": "^ 9.6.1",
+    "dotenv": "^16.0.1",
+    "glob": "^8.0.3",
+    "mocha": "^9.1.1",
+    "node-ipc": "^9.1.4",
+    "uuid": "^8.3.2",
+    "winston": "^3.7.2",
+    "winston-daily-rotate-file": "^4.6.1"
   }
 }
